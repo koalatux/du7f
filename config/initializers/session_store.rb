@@ -5,8 +5,8 @@
 # Make sure the secret is at least 30 characters and all random, 
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
-  :key         => '_dudel_session',
-  :secret      => 'a6a1fbd066d5f8aa596723a68acedf31a9eb460d9f4ecacc675a9cc53017b34ea497c336875ff766c7b66b7218d81f4db7e6cd9a8751942d62fae8dbb10538d7'
+  :key         => '_du7f_session',
+  :secret      => 'a6a1fbd066d5f8aa596723a68acedf31a9eb460d9f4ecacc675a9cc53017b34ea497c336875ff766c7b66b7218d81f4db7e6cd9a8751942d62fae8dbb10538d7' #TODO
 }
 
 # Use the database for sessions instead of the cookie-based default,

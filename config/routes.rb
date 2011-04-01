@@ -1,4 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.new_poll         'new',                            :controller => :polls,        :action => :new,     :conditions => { :method => :get    }
+  map.polls            '',                               :controller => :polls,        :action => :index,   :conditions => { :method => :get    }
+  map.polls            '',                               :controller => :polls,        :action => :create,  :conditions => { :method => :post   }
+  map.poll             ':token',                         :controller => :polls,        :action => :show,    :conditions => { :method => :get    }
+  map.edit_poll_admin  ':token/admin/:admin_token/edit', :controller => :polls,        :action => :edit,    :conditions => { :method => :get    }
+  map.poll_admin       ':token/admin/:admin_token',      :controller => :polls,        :action => :update,  :conditions => { :method => :put    }
+  map.poll_admin       ':token/admin/:admin_token',      :controller => :polls,        :action => :destroy, :conditions => { :method => :delete }
+
+  map.participants     ':token/participant',             :controller => :participants, :action => :create,  :conditions => { :method => :post   }
+  map.edit_participant ':token/participant/:id/edit',    :controller => :participants, :action => :edit,    :conditions => { :method => :get    }
+  map.participant      ':token/participant/:id',         :controller => :participants, :action => :update,  :conditions => { :method => :put    }
+  map.participant      ':token/participant/:id',         :controller => :participants, :action => :destroy, :conditions => { :method => :delete }
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -38,6 +52,6 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  #map.connect ':controller/:action/:id'
+  #map.connect ':controller/:action/:id.:format'
 end

@@ -7,4 +7,19 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+
+
+  before_filter :get_poll
+
+  private
+
+  def get_poll
+    # TODO don't always load everything
+    @poll = Poll.find_by_token(params[:token], :include => [ :choices, { :participants => :entries } ]) or raise ActiveRecord::RecordNotFound
+  end
+
+  def verify_admin_token
+    raise ActiveRecord::RecordNotFound if @poll.admin_token != params[:admin_token]
+  end
+
 end

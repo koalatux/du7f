@@ -1,0 +1,6 @@
+<h1>Poll Created</h1>
+
+<p>
+  <%= link_to 'Show', @poll %><br />
+  <%= link_to 'Admin Edit', edit_poll_admin_path( :token => @poll.token, :admin_token => @poll.admin_token ) %>
+</p>

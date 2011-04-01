@@ -1,0 +1,14 @@
+<h1>Editing poll</h1>
+
+<% form_for @poll, :url => poll_admin_path do |f| %>
+  <%= f.error_messages %>
+
+  <%= render :partial => "poll_form", :locals => { :f => f } %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @poll %>
+<%= link_to 'Destroy', poll_admin_path, :confirm => 'Are you sure?', :method => :delete %>

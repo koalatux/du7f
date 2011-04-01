@@ -1,0 +1,51 @@
+<p>
+  <b>Author:</b>
+  <%=h @poll.author %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @poll.title %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%=h @poll.created_at %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @poll.description %>
+</p>
+
+<% form_for @participant do |f| %>
+  <%= f.error_messages %>
+
+  <%# TODO: find out how to sort with eager loading, but without join %>
+  <table>
+    <tr>
+      <th>Name</th>
+      <% @poll.choices.sort_by{|x|x.id}.each do |choice| %>
+        <th><%=h choice.title %></th>
+      <% end %>
+    </tr>
+    <% @poll.participants.sort_by{|x|x.id}.each do |participant| %>
+      <tr>
+        <td><%=h participant.name %></td>
+        <% participant.entries.sort_by{|x|x.id}.each do |entry| %>
+          <td><%=h entry.answer %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    <tr>
+      <td><%= f.text_field :name %></td>
+      <% f.fields_for :entries do |ef| %>
+        <td>
+          <%= ef.check_box :answer %>
+        </td>
+      <% end %>
+      <td><%= f.submit %></td>
+    </tr>
+  </table>
+
+<% end %>
