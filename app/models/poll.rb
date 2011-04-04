@@ -11,6 +11,11 @@ class Poll < ActiveRecord::Base
     self.token
   end
 
+  def options
+    # TODO: depends on poll_type
+    [0, 1]
+  end
+
   private
 
   def set_tokens

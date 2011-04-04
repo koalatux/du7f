@@ -46,6 +46,12 @@
       <% end %>
       <td><%= f.submit %></td>
     </tr>
+    <tr>
+      <td>Results</td>
+      <% @poll.choices.sort_by{|x|x.id}.each do |choice| %>
+        <td><%= choice.result.map{|k,v| "#{h k}-#{h v}"}.join("<br />") %></td>
+      <% end %>
+    </tr>
   </table>
 
 <% end %>
