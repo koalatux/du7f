@@ -4,11 +4,15 @@ class ParticipantsController < ApplicationController
   def create
     @participant = @poll.participants.new(params[:participant])
 
+    # setting the associations here is needed, because of the validation in the entries
+    @participant.entries.each{ |e| e.participant = @participant }
+
     if @participant.save
       flash[:notice] = 'Participant was successfully created.'
       redirect_to @poll
     else
-      render :action => "new" # new.html.erb
+      # TODO: render edit form
+      render :template => "polls/show"
     end
   end
 

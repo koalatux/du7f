@@ -8,7 +8,7 @@ class PollsController < ApplicationController
     @poll = Poll.new
     # TODO: variable choices count
     (0...7).each do
-      @poll.choices << Choice.new
+      @poll.choices << @poll.choices.new
     end
   end
   # new.html.erb
@@ -29,9 +29,9 @@ class PollsController < ApplicationController
 
   # GET /0123456789abcdef...
   def show
-    @participant = Participant.new
-    @poll.choices.each do |choice|
-      @participant.entries << Entry.new
+    @participant = @poll.participants.new
+    @poll.choices.sort_by{|x|x.id}.each do |choice|
+      @participant.entries << choice.entries.new
     end
   end
   # show.html.erb
