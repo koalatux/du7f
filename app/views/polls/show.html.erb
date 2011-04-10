@@ -21,26 +21,24 @@
 <% form_for @participant do |f| %>
   <%= f.error_messages %>
 
-  <%# TODO: find out how to sort with eager loading, but without join %>
   <table>
     <tr>
       <th>Name</th>
-      <% @poll.choices.sort_by{|x|x.id}.each do |choice| %>
+      <% @choices.each do |choice| %>
         <th><%=h choice.title %></th>
       <% end %>
     </tr>
-    <% @poll.participants.sort_by{|x|x.id}.each do |participant| %>
+    <% @participants.each do |participant| %>
       <tr>
         <td><%=h participant.name %></td>
         <%# TODO: handle event, when there are gaps %>
-        <% participant.entries.sort_by{|x|x.choice.id}.each do |entry| %>
+        <% participant.entries.each do |entry| %>
           <td><%=h entry.answer %></td>
         <% end %>
       </tr>
     <% end %>
     <tr>
       <td><%= f.text_field :name %></td>
-      <%# entries get sorted in the controller %>
       <% f.fields_for :entries do |ef| %>
         <td>
           <%= ef.hidden_field :choice_id %>
@@ -51,8 +49,7 @@
     </tr>
     <tr>
       <td>Results</td>
-      <%# TODO %>
-      <% @poll.choices.sort_by{|x|x.id}.each do |choice| %>
+      <% @choices.each do |choice| %>
         <td><%= choice.result.map{|k,v| "#{h k}-#{h v}"}.join("<br />") %></td>
       <% end %>
     </tr>

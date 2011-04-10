@@ -14,8 +14,14 @@ class ApplicationController < ActionController::Base
   private
 
   def get_poll
-    # TODO don't always load everything
-    @poll = Poll.find_by_token(params[:token], :include => [ :choices, { :participants => :entries } ]) or raise ActiveRecord::RecordNotFound
+    @poll = Poll.find_by_token(params[:token]) or raise ActiveRecord::RecordNotFound
+  end
+
+  def get_poll_associates
+    # OPTIMIZE: do a select for only the needed columns
+    @participants = Participant.find(:all, :conditions => {:poll_id => @poll.id}, :order => "participants.id, choices.id", :include => {:entries => :choice})
+    # TODO: eager loading for counts
+    @choices = Choice.find(:all, :conditions => {:poll_id => @poll.id}, :order => "id")
   end
 
   def verify_admin_token
