@@ -20,6 +20,19 @@
 
 <% form_for @participant do |f| %>
   <%= f.error_messages %>
+  <%=
+    # prepare radio buttons and print mapping to choice_ids
+    # can't do this inline, fields_for has to be the outer loop
+    radio_buttons = []
+    choice_mappings = ""
+    f.fields_for :entries do |ef|
+      radio_buttons << @poll.options.map do |option_key, _|
+        ef.radio_button :answer, option_key
+      end
+      choice_mappings << ef.hidden_field(:choice_id) + "\n"
+    end
+    choice_mappings
+  %>
 
   <table>
     <tr>
@@ -33,26 +46,34 @@
         <td><%=h participant.name %></td>
         <%# TODO: handle event, when there are gaps %>
         <% participant.entries.each do |entry| %>
-          <td><%=h entry.answer %></td>
+          <td><%=h @poll.options[entry.answer] %></td>
         <% end %>
       </tr>
     <% end %>
-    <tr>
-      <td><%= f.text_field :name %></td>
-      <% f.fields_for :entries do |ef| %>
-        <td>
-          <%= ef.hidden_field :choice_id %>
-          <%= ef.check_box :answer %>
-        </td>
-      <% end %>
-      <td><%= f.submit %></td>
-    </tr>
-    <tr>
-      <td>Results</td>
-      <% @choices.each do |choice| %>
-        <td><%= choice.result.map{|k,v| "#{h k}-#{h v}"}.join("<br />") %></td>
-      <% end %>
-    </tr>
+    <% @poll.options.each_with_index do |option, i| %>
+      <% option_key, option_name = option %>
+      <tr>
+        <% if i == 0 %>
+          <td rowspan="<%=h @poll.options.count %>">
+            <%= f.text_field :name %><br />
+            <%= f.submit %>
+          </td>
+        <% end %>
+        <% radio_buttons.each do |button| %>
+          <td><%= button[i] %></td>
+        <% end %>
+        <td><%=h option_name %></td>
+      </tr>
+    <% end %>
+    <% @poll.options.each do |option_key, option_name| %>
+      <tr>
+        <td></td>
+        <% @choices.each do |choice| %>
+          <td><%=h choice.count_answers(option_key) %></td>
+        <% end %>
+        <td>Total <%=h option_name %></td>
+      </tr>
+    <% end %>
   </table>
 
 <% end %>

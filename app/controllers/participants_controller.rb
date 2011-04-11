@@ -12,6 +12,7 @@ class ParticipantsController < ApplicationController
       redirect_to @poll
     else
       # TODO: render edit form
+      get_poll_associates
       render :template => "polls/show"
     end
   end

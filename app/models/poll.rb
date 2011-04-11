@@ -2,6 +2,7 @@ class Poll < ActiveRecord::Base
   before_create :set_tokens
 
   attr_accessible :author, :title, :description, :choices_attributes
+  validates_presence_of :author, :title, :description #, :poll_type
 
   has_many :choices, :dependent => :destroy
   has_many :participants, :dependent => :destroy
@@ -13,7 +14,7 @@ class Poll < ActiveRecord::Base
 
   def options
     # TODO: depends on poll_type
-    [0, 1]
+    {0 => "no", 1 => "yes", 2 => "maybe"}
   end
 
   private
