@@ -1,6 +1,5 @@
 class PollsController < ApplicationController
   skip_before_filter :get_poll, :only => [ :new, :index, :create ]
-  before_filter :get_poll_associates, :only => [ :show ]
   before_filter :verify_admin_token, :only => [ :edit, :update, :destroy ]
   # TODO: ensure time stamp update, when only choice gets changed
 
@@ -27,15 +26,6 @@ class PollsController < ApplicationController
       render :action => "new" # new.html.erb
     end
   end
-
-  # GET /0123456789abcdef...
-  def show
-    @participant = @poll.participants.new
-    @choices.each do |choice|
-      @participant.entries << choice.entries.new
-    end
-  end
-  # show.html.erb
 
   ## Admin ##
 

@@ -1,5 +1,16 @@
 class ParticipantsController < ApplicationController
+  before_filter :get_poll_associates, :only => [ :index ]
+
   # TODO: ensure time stamp update, when only an entry gets changed
+
+  # GET /0123456789abcdef...
+  def index
+    @participant = @poll.participants.new
+    @choices.each do |choice|
+      @participant.entries << choice.entries.new
+    end
+  end
+  # index.html.erb
 
   def create
     @participant = @poll.participants.new(params[:participant])
@@ -11,9 +22,8 @@ class ParticipantsController < ApplicationController
       flash[:notice] = 'Participant was successfully created.'
       redirect_to @poll
     else
-      # TODO: render edit form
       get_poll_associates
-      render :template => "polls/show"
+      render :action => "index"
     end
   end
 
