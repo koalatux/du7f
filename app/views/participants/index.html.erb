@@ -48,6 +48,9 @@
         <% participant.entries.each do |entry| %>
           <td><%=h @poll.options[entry.answer] %></td>
         <% end %>
+        <td>
+          <%= link_to 'Destroy', participant_path(@poll, participant), :confirm => 'Are you sure?', :method => :delete %>
+        </td>
       </tr>
     <% end %>
     <% @poll.options.each_with_index do |option, i| %>

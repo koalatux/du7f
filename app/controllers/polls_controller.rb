@@ -45,6 +45,7 @@ class PollsController < ApplicationController
   # DELETE /0123456789abcdef.../admin/fedcba9876543210...
   def destroy
     @poll.destroy
+    flash[:notice] = "Poll destroyed."
     redirect_to polls_path
   end
 

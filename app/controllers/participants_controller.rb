@@ -1,5 +1,6 @@
 class ParticipantsController < ApplicationController
   before_filter :get_poll_associates, :only => [ :index ]
+  before_filter :get_participant, :only => [ :destroy ]
 
   # TODO: ensure time stamp update, when only an entry gets changed
 
@@ -36,7 +37,15 @@ class ParticipantsController < ApplicationController
   end
 
   def destroy
-    # TODO
+    @participant.destroy
+    flash[:notice] = "Participant destroyed."
+    redirect_to @poll
+  end
+
+  private
+
+  def get_participant
+    @participant = Participant.find(params[:id])
   end
 
 end
