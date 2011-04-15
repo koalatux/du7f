@@ -1,6 +1,6 @@
 class ParticipantsController < ApplicationController
-  before_filter :get_poll_associates, :only => [ :index ]
-  before_filter :get_participant, :only => [ :destroy ]
+  before_filter :get_poll_associates, :only => [ :index, :edit ]
+  before_filter :get_participant, :only => [ :edit, :update, :destroy ]
 
   # TODO: ensure time stamp update, when only an entry gets changed
 
@@ -10,6 +10,7 @@ class ParticipantsController < ApplicationController
     @choices.each do |choice|
       @participant.entries << choice.entries.new
     end
+    @participants << @participant
   end
   # index.html.erb
 
@@ -24,16 +25,21 @@ class ParticipantsController < ApplicationController
       redirect_to @poll
     else
       get_poll_associates
+      @participants << @participant
       render :action => "index"
     end
   end
 
-  def edit
-    # TODO
-  end
+  # edit.html.erb
 
   def update
-    # TODO
+    if @participant.update_attributes(params[:participant])
+      flash[:notice] = 'Participant was successfully updated.'
+      redirect_to @poll
+    else
+      get_poll_associates
+      render :action => "index"
+    end
   end
 
   def destroy
@@ -45,7 +51,7 @@ class ParticipantsController < ApplicationController
   private
 
   def get_participant
-    @participant = Participant.find(params[:id])
+    @participant = @poll.participants.find(params[:id])
   end
 
 end
