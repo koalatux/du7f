@@ -78,7 +78,7 @@
               <td rowspan="<%=h @poll.options.count %>">
                 <%= f.text_field :name %><br />
                 <%= f.submit %>
-                <% if params[:action] == 'edit' %>
+                <% if params[:action] == 'edit' or params[:action] == 'update' %>
                   <%= link_to 'Cancel', participants_path %>
                   <%= link_to 'Destroy', participant_path, :confirm => 'Are you sure?', :method => :delete %>
                 <% end %>
