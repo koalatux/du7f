@@ -55,7 +55,7 @@ class ParticipantsController < ApplicationController
       redirect_to @poll
     else
       get_poll_associates
-      render :action => "index"
+      render :action => "edit"
     end
   end
 

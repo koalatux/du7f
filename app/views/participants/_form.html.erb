@@ -37,14 +37,6 @@
   <%=h @poll.description %>
 </p>
 
-<%
-  if params[:action] == 'index'
-    form_url = participants_path
-  elsif params[:action] == 'edit' or params[:action] == 'update'
-    form_url = participant_path
-  end
-%>
-
 <% form_for @participant, :url => form_url do |f| %>
   <%= f.error_messages %>
   <%=
@@ -97,7 +89,7 @@
               <td rowspan="<%=h @poll.options.count %>">
                 <%= f.text_field :name %><br />
                 <%= f.submit %>
-                <% if params[:action] == 'edit' or params[:action] == 'update' %>
+                <% unless participant.new_record? %>
                   <%= link_to 'Cancel', participants_path %>
                   <%= link_to 'Destroy', participant_path, :confirm => 'Are you sure?', :method => :delete %>
                 <% end %>
