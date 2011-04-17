@@ -25,6 +25,7 @@ class Entry < ActiveRecord::Base
 
   # uniqueness is checked in the index table of the db
   def particpant_poll_and_choice_poll_must_match
-    errors.add_to_base("participant and choice are in different polls") if self.participant.poll_id != self.choice.poll_id
+    errors.add_to_base("participant and choice are in different polls") if
+      self.participant && self.choice && self.participant.poll_id != self.choice.poll_id
   end
 end
