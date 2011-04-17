@@ -58,7 +58,7 @@
     <%# table header %>
     <tr>
       <th>Name</th>
-      <% @choices.each do |choice| %>
+      <% @poll.choices.each do |choice| %>
         <th><%=h choice.title %></th>
       <% end %>
     </tr>
@@ -109,7 +109,7 @@
     <% @poll.options.each do |option_key, option_name| %>
       <tr>
         <td></td>
-        <% @choices.each do |choice| %>
+        <% @poll.choices.each do |choice| %>
           <td><%=h choice.count_answers(option_key) %></td>
         <% end %>
         <td>Total <%=h option_name %></td>

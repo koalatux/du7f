@@ -24,7 +24,7 @@ class ParticipantsController < ApplicationController
   # GET /0123456789abcdef...
   def index
     @participant = @poll.participants.new
-    @choices.each do |choice|
+    @poll.choices.each do |choice|
       @participant.entries << choice.entries.new
     end
     @participants << @participant
