@@ -16,22 +16,24 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+%>
+<p>
+  <%= f.label :author %><br />
+  <%= f.text_field :author %>
+</p>
+<p>
+  <%= f.label :title %><br />
+  <%= f.text_field :title %>
+</p>
+<p>
+  <%= f.label :description %><br />
+  <%= f.text_area :description %>
+</p>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>du7f - just simple polls</title>
-  <%= stylesheet_link_tag 'scaffold' %>
-</head>
-<body>
-
-<p style="color: green"><%= flash[:notice] %></p>
-
-<%= yield %>
-
-<p style="font-size: 60%"><a href="http://git.koalatux.ch/?p=adi/du7f.git;a=summary">du7f</a> is available under the <a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License</a></p>
-
-</body>
-</html>
+<h2>Choices</h2>
+<% f.fields_for :choices do |cf| %>
+  <p>
+    <%= cf.label :title %>
+    <%= cf.text_field :title %>
+  </p>
+<% end %>
