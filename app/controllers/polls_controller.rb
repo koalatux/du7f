@@ -24,7 +24,7 @@ class PollsController < ApplicationController
   def new
     @poll = Poll.new
     # TODO: variable choices count
-    (0...7).each do
+    (0...23).each do
       @poll.choices << @poll.choices.new
     end
   end
@@ -36,6 +36,10 @@ class PollsController < ApplicationController
   # POST /
   def create
     @poll = Poll.new(params[:poll])
+    @poll.destroy_empty_choices!
+    # setting the associations here is needed, because of the validation in the choices
+    @poll.choices.each{ |c| c.poll = @poll }
+
     if @poll.save
       flash[:notice] = 'Poll was successfully created.'
       # create.html.erb
@@ -51,6 +55,7 @@ class PollsController < ApplicationController
 
   # PUT /0123456789abcdef.../admin/fedcba9876543210...
   def update
+    # TODO: destroy_empty_choices not implemented here, first implement ability to add choices and ask for confirmation
     if @poll.update_attributes(params[:poll])
       flash[:notice] = 'Poll was successfully updated.'
       redirect_to @poll

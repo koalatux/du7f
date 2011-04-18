@@ -16,10 +16,12 @@
 
 
 class Poll < ActiveRecord::Base
-  before_create :set_tokens
+  before_create :set_tokens!
 
   attr_accessible :author, :title, :description, :choices_attributes
   validates_presence_of :author, :title, :description #, :poll_type
+  #validates_associated :choices, :participants # TODO
+  validate :must_have_at_least_one_choice
 
   has_many :choices, :dependent => :destroy
   has_many :participants, :dependent => :destroy
@@ -34,10 +36,22 @@ class Poll < ActiveRecord::Base
     {0 => "no", 1 => "yes", 2 => "maybe"}
   end
 
+  def destroy_empty_choices!
+    self.choices.each do |choice|
+      choice.destroy if choice.title.blank?
+    end
+  end
+
   private
 
-  def set_tokens
+  def set_tokens!
     self.token = ActiveSupport::SecureRandom.hex(16)
     self.admin_token = ActiveSupport::SecureRandom.hex(16)
   end
+
+  def must_have_at_least_one_choice
+    self.errors.add(:choices, "count must be at least one") if
+      self.choices.find_all{|x| !x.destroyed?}.count == 0
+  end
+
 end

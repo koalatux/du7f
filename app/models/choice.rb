@@ -17,7 +17,7 @@
 
 class Choice < ActiveRecord::Base
   attr_accessible :title
-  #validates_presence_of :poll # TODO
+  validates_presence_of :poll, :title
   validates_associated :entries
 
   belongs_to :poll
