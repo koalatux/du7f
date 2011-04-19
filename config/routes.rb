@@ -17,17 +17,19 @@
 
 ActionController::Routing::Routes.draw do |map|
 
-  map.new_poll         'new',                            :controller => :polls,        :action => :new,     :conditions => { :method => :get    }
-  map.polls            '',                               :controller => :polls,        :action => :index,   :conditions => { :method => :get    }
-  map.polls            '',                               :controller => :polls,        :action => :create,  :conditions => { :method => :post   }
-  map.edit_poll_admin  ':token/admin/:admin_token/edit', :controller => :polls,        :action => :edit,    :conditions => { :method => :get    }
-  map.poll_admin       ':token/admin/:admin_token',      :controller => :polls,        :action => :update,  :conditions => { :method => :put    }
-  map.poll_admin       ':token/admin/:admin_token',      :controller => :polls,        :action => :destroy, :conditions => { :method => :delete }
+  map.new_poll           'new',                               :controller => :polls,        :action => :new,             :conditions => { :method => :get    }
+  map.polls              '',                                  :controller => :polls,        :action => :index,           :conditions => { :method => :get    }
+  map.polls              '',                                  :controller => :polls,        :action => :create,          :conditions => { :method => :post   }
+  map.edit_poll_admin    ':token/admin/:admin_token/edit',    :controller => :polls,        :action => :edit,            :conditions => { :method => :get    }
+  map.poll_admin         ':token/admin/:admin_token',         :controller => :polls,        :action => :update,          :conditions => { :method => :put    }
+  map.destroy_poll_admin ':token/admin/:admin_token/destroy', :controller => :polls,        :action => :destroy_confirm, :conditions => { :method => :get    }
+  map.poll_admin         ':token/admin/:admin_token',         :controller => :polls,        :action => :destroy,         :conditions => { :method => :delete }
 
-  map.poll             ':token',                         :controller => :participants, :action => :index,   :conditions => { :method => :get    }
-  map.participants     ':token',                         :controller => :participants, :action => :create,  :conditions => { :method => :post   }
-  map.edit_participant ':token/participant/:id/edit',    :controller => :participants, :action => :edit,    :conditions => { :method => :get    }
-  map.participant      ':token/participant/:id',         :controller => :participants, :action => :update,  :conditions => { :method => :put    }
-  map.participant      ':token/participant/:id',         :controller => :participants, :action => :destroy, :conditions => { :method => :delete }
+  map.poll                ':token',                           :controller => :participants, :action => :index,           :conditions => { :method => :get    }
+  map.participants        ':token',                           :controller => :participants, :action => :create,          :conditions => { :method => :post   }
+  map.edit_participant    ':token/participant/:id/edit',      :controller => :participants, :action => :edit,            :conditions => { :method => :get    }
+  map.participant         ':token/participant/:id',           :controller => :participants, :action => :update,          :conditions => { :method => :put    }
+  map.destroy_participant ':token/participant/:id/destroy',   :controller => :participants, :action => :destroy_confirm, :conditions => { :method => :get    }
+  map.participant         ':token/participant/:id',           :controller => :participants, :action => :destroy,         :conditions => { :method => :delete }
 
 end

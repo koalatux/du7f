@@ -17,7 +17,7 @@
 
 class PollsController < ApplicationController
   skip_before_filter :get_poll, :only => [ :new, :index, :create ]
-  before_filter :verify_admin_token, :only => [ :edit, :update, :destroy ]
+  before_filter :verify_admin_token, :except => [ :new, :index, :create ]
   # TODO: ensure time stamp update, when only choice gets changed
 
   # GET /new
@@ -50,7 +50,7 @@ class PollsController < ApplicationController
 
   ## Admin ##
 
-  # GET /0123456789abcdef.../admin/fedcba9876543210...
+  # GET /0123456789abcdef.../admin/fedcba9876543210.../edit
   # edit.html.erb
 
   # PUT /0123456789abcdef.../admin/fedcba9876543210...
@@ -63,6 +63,9 @@ class PollsController < ApplicationController
       render :action => "edit" # edit.html.erb
     end
   end
+
+  # GET /0123456789abcdef.../admin/fedcba9876543210.../destroy
+  # destroy_confirm.html.erb
 
   # DELETE /0123456789abcdef.../admin/fedcba9876543210...
   def destroy

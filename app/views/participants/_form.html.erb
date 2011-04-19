@@ -75,7 +75,7 @@
           <% end %>
           <td>
             <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
-            <%= link_to 'Destroy', participant_path(@poll, participant), :confirm => 'Are you sure?', :method => :delete %>
+            <%= link_to 'Destroy', destroy_participant_path(@poll, participant) %>
           </td>
         </tr>
 
@@ -91,7 +91,7 @@
                 <%= f.submit %>
                 <% unless participant.new_record? %>
                   <%= link_to 'Cancel', participants_path %>
-                  <%= link_to 'Destroy', participant_path, :confirm => 'Are you sure?', :method => :delete %>
+                  <%= link_to 'Destroy', destroy_participant_path %>
                 <% end %>
               </td>
             <% end %>

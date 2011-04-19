@@ -17,7 +17,7 @@
 
 class ParticipantsController < ApplicationController
   before_filter :get_poll_associates, :only => [ :index, :edit ]
-  before_filter :get_participant, :only => [ :edit, :update, :destroy ]
+  before_filter :get_participant, :except => [ :index, :create ]
 
   # TODO: ensure time stamp update, when only an entry gets changed
 
@@ -58,6 +58,8 @@ class ParticipantsController < ApplicationController
       render :action => "edit"
     end
   end
+
+  # destroy_confirm.html.erb
 
   def destroy
     @participant.destroy

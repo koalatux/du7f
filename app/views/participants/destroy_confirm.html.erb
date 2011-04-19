@@ -17,17 +17,9 @@
 
 
 %>
-<h1>Editing poll</h1>
 
-<% form_for @poll, :url => poll_admin_path do |f| %>
-  <%= f.error_messages %>
-
-  <%= render :partial => "form", :locals => { :f => f } %>
-
-  <p>
-    <%= f.submit 'Update' %>
-  </p>
-<% end %>
-
-<%= link_to 'Show', @poll %>
-<%= link_to 'Destroy', destroy_poll_admin_path %>
+<p>Really destroy this participant?</p>
+<p>
+<%= button_to "Destroy", participant_path(@poll, @participant), :method => :delete %>
+<%= link_to 'Cancel', participants_path %>
+</p>
