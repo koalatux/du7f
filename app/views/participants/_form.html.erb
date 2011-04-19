@@ -34,8 +34,8 @@
 
 <p>
   <b>Description:</b>
-  <%=h @poll.description %>
 </p>
+<%= simple_format(h @poll.description) %>
 
 <% form_for @participant, :url => form_url do |f| %>
   <%= f.error_messages %>
