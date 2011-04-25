@@ -18,10 +18,11 @@
 class Poll < ActiveRecord::Base
   before_create :set_tokens!
 
-  attr_accessible :author, :title, :description, :choices_attributes
+  attr_accessible :author, :title, :description, :admin_email_address, :choices_attributes
   validates_presence_of :author, :title, :description #, :poll_type
   #validates_associated :choices, :participants # TODO
   validate :must_have_at_least_one_choice
+  validate :must_have_nil_or_valid_admin_email_address
 
   has_many :choices, :dependent => :destroy
   has_many :participants, :dependent => :destroy
@@ -52,6 +53,14 @@ class Poll < ActiveRecord::Base
   def must_have_at_least_one_choice
     self.errors.add(:choices, "count must be at least one") if
       self.choices.find_all{|x| !x.destroyed?}.count == 0
+  end
+
+  def must_have_nil_or_valid_admin_email_address
+    self.admin_email_address = nil if self.admin_email_address.blank?
+    if self.admin_email_address
+      self.errors.add(:admin_email_address, "must be valid or empty") unless
+        self.admin_email_address.match(/.@./) # TODO: RFC 3696
+    end
   end
 
 end
