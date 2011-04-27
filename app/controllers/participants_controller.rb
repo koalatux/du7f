@@ -38,6 +38,7 @@ class ParticipantsController < ApplicationController
     @participant.entries.each{ |e| e.participant = @participant }
 
     if @participant.save
+      EmailNotifier.deliver_participant_created(@participant) if @poll.admin_email_address
       flash[:notice] = 'Participant was successfully created.'
       redirect_to @poll
     else
@@ -51,6 +52,7 @@ class ParticipantsController < ApplicationController
 
   def update
     if @participant.update_attributes(params[:participant])
+      EmailNotifier.deliver_participant_changed(@participant) if @poll.admin_email_address # TODO only send on changes
       flash[:notice] = 'Participant was successfully updated.'
       redirect_to @poll
     else
@@ -63,6 +65,7 @@ class ParticipantsController < ApplicationController
 
   def destroy
     @participant.destroy
+    EmailNotifier.deliver_participant_deleted(@participant) if @poll.admin_email_address
     flash[:notice] = "Participant destroyed."
     redirect_to @poll
   end

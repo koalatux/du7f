@@ -41,6 +41,7 @@ class PollsController < ApplicationController
     @poll.choices.each{ |c| c.poll = @poll }
 
     if @poll.save
+      EmailNotifier.deliver_poll_created(@poll) if @poll.admin_email_address
       flash[:notice] = 'Poll was successfully created.'
       # create.html.erb
     else
@@ -57,6 +58,7 @@ class PollsController < ApplicationController
   def update
     # TODO: destroy_empty_choices not implemented here, first implement ability to add choices and ask for confirmation
     if @poll.update_attributes(params[:poll])
+      EmailNotifier.deliver_poll_changed(@poll) if @poll.admin_email_address # TODO only send on admin_email_address change
       flash[:notice] = 'Poll was successfully updated.'
       redirect_to @poll
     else

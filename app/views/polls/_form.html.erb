@@ -18,8 +18,12 @@
 
 %>
 <p>
-  <%= f.label :author %><br />
+  <%= f.label :author, "Your name" %><br />
   <%= f.text_field :author %>
+</p>
+<p>
+  <%= f.label :admin_email_address, "Your email address (optional)" %><br />
+  <%= f.text_field :admin_email_address %>
 </p>
 <p>
   <%= f.label :title %><br />
