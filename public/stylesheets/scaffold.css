@@ -73,9 +73,12 @@ table#poll td.empty
   border-style: none;
 }
 
+table#poll th.name,
 table#poll th.choice
 {
   width: 4em;
+  padding: 0.5em 1em;
+  vertical-align: bottom;
 }
 
 table#poll th.choice,
@@ -96,5 +99,6 @@ table#poll th.name
 table#poll td.action,
 table#poll td.option
 {
+  white-space: nowrap;
   padding-left: 1em;
 }
