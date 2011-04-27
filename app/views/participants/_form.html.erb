@@ -53,13 +53,13 @@
     choice_mappings
   %>
 
-  <table>
+  <table id="poll">
 
     <%# table header %>
     <tr>
-      <th>Name</th>
+      <th class="name">Name</th>
       <% @poll.choices.each do |choice| %>
-        <th><%=h choice.title %></th>
+        <th class="choice"><%=h choice.title %></th>
       <% end %>
     </tr>
 
@@ -68,12 +68,12 @@
 
         <%# show participants %>
         <tr>
-          <td><%=h participant.name %></td>
+          <td class="name"><%=h participant.name %></td>
           <%# TODO: handle event, when there are gaps %>
           <% participant.entries.each do |entry| %>
-            <td><%=h @poll.options[entry.answer] %></td>
+            <td class="answer"><%=h @poll.options[entry.answer] %></td>
           <% end %>
-          <td>
+          <td class="action">
             <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
             <%= link_to 'Destroy', destroy_participant_path(@poll, participant) %>
           </td>
@@ -86,7 +86,7 @@
           <% option_key, option_name = option %>
           <tr>
             <% if i == 0 %>
-              <td rowspan="<%=h @poll.options.count %>">
+              <td rowspan="<%=h @poll.options.count %>" class="name">
                 <%= f.text_field :name %><br />
                 <%= f.submit %>
                 <% unless participant.new_record? %>
@@ -96,9 +96,9 @@
               </td>
             <% end %>
             <% radio_buttons.each do |button| %>
-              <td><%= button[i] %></td>
+              <td class="choice"><%= button[i] %></td>
             <% end %>
-            <td><%=h option_name %></td>
+            <td class="option"><%=h option_name %></td>
           </tr>
         <% end %>
 
@@ -108,11 +108,11 @@
     <%# show results %>
     <% @poll.options.each do |option_key, option_name| %>
       <tr>
-        <td></td>
+        <td class="empty"></td>
         <% @poll.choices.each do |choice| %>
-          <td><%=h choice.count_answers(option_key) %></td>
+          <td class="total"><%=h choice.count_answers(option_key) %></td>
         <% end %>
-        <td>Total <%=h option_name %></td>
+        <td class="option">Total <%=h option_name %></td>
       </tr>
     <% end %>
 
