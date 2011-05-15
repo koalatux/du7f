@@ -74,7 +74,7 @@
       <% end %>
     </tr>
 
-    <% @participants.each do |participant| %>
+    <% @participants.each_with_index do |participant, p_i| %>
       <% unless participant == @participant %>
 
         <%# show participants %>
@@ -91,6 +91,10 @@
         </tr>
 
       <% else %>
+
+        <% if p_i != 0 %>
+          <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
+        <% end %>
 
         <%# edit participant %>
         <% @poll.options.each_with_index do |option, i| %>
@@ -113,8 +117,14 @@
           </tr>
         <% end %>
 
+        <% if p_i != @participants.count - 1 %>
+          <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
+        <% end %>
+
       <% end %>
     <% end %>
+
+    <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
 
     <%# show results %>
     <% @poll.options.each do |option_key, option| %>

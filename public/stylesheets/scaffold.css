@@ -68,7 +68,8 @@ table#poll th,
 table#poll td.name,
 table#poll td.action,
 table#poll td.option,
-table#poll td.empty
+table#poll td.empty,
+table#poll tr.empty td
 {
   border-style: none;
 }
@@ -101,4 +102,9 @@ table#poll td.option
 {
   white-space: nowrap;
   padding-left: 1em;
+}
+
+table#poll tr.empty
+{
+  height: 0.4em;
 }
