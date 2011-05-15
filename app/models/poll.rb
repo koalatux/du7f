@@ -34,7 +34,7 @@ class Poll < ActiveRecord::Base
 
   def options
     # TODO: depends on poll_type
-    {0 => "no", 1 => "yes", 2 => "maybe"}
+    { 1 => ["yes", "#7fff7f"], 2 => ["maybe", "#ffffff"], 0 => ["no", "#ff7f7f"] }
   end
 
   def destroy_empty_choices!
