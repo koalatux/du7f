@@ -23,8 +23,7 @@ class PollsController < ApplicationController
   # GET /new
   def new
     @poll = Poll.new
-    # TODO: variable choices count
-    (0...23).each do
+    (0...5).each do
       @poll.choices << @poll.choices.new
     end
   end
@@ -36,6 +35,14 @@ class PollsController < ApplicationController
   # POST /
   def create
     @poll = Poll.new(params[:poll])
+
+    if params[:commit] == "Add Choice"
+      # not saving, just adding more choices
+      @poll.choices << @poll.choices.new
+      render :action => "new" # new.html.erb
+      return
+    end
+
     @poll.destroy_empty_choices!
     # setting the associations here is needed, because of the validation in the choices
     @poll.choices.each{ |c| c.poll = @poll }

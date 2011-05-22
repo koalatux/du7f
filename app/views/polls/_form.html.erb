@@ -41,3 +41,6 @@
     <%= cf.text_field :title %>
   </p>
 <% end %>
+<% if @poll.new_record? %>
+  <%= f.submit 'Add Choice' %>
+<% end %>
