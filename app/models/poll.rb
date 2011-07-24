@@ -14,15 +14,35 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 class Poll < ActiveRecord::Base
+
+  POLL_TYPES = {
+    1 => {
+      :name => "Yes/No",
+      :answers => {
+        1 => { :name => "yes", :color => "#7fff7f" },
+        2 => { :name => "no", :color => "#ff7f7f" }
+      }
+    },
+    2 => {
+      :name => "Yes/No/Maybe",
+      :answers => {
+        1 => { :name => "yes", :color => "#7fff7f" },
+        2 => { :name => "no", :color => "#ff7f7f" },
+        3 => { :name => "maybe", :color => "#ffffff" }
+      }
+    }
+  }
+
   before_create :set_tokens!
 
-  attr_accessible :author, :title, :description, :admin_email_address, :choices_attributes
-  validates_presence_of :author, :title, :description #, :poll_type
+  attr_accessible :author, :title, :description, :admin_email_address, :poll_type, :choices_attributes
+  attr_readonly :poll_type
+  validates_presence_of :author, :title, :description, :poll_type
   #validates_associated :choices, :participants # TODO
   validate :must_have_at_least_one_choice
   validate :must_have_nil_or_valid_admin_email_address
+  validate :must_be_valid_poll_type
 
   has_many :choices, :dependent => :destroy
   has_many :participants, :dependent => :destroy
@@ -32,9 +52,8 @@ class Poll < ActiveRecord::Base
     self.token
   end
 
-  def options
-    # TODO: depends on poll_type
-    { 1 => ["yes", "#7fff7f"], 2 => ["maybe", "#ffffff"], 0 => ["no", "#ff7f7f"] }
+  def answer_set
+    POLL_TYPES[poll_type] && POLL_TYPES[poll_type][:answers]
   end
 
   def destroy_empty_choices!
@@ -61,6 +80,11 @@ class Poll < ActiveRecord::Base
       self.errors.add(:admin_email_address, "must be valid or empty") unless
         self.admin_email_address.match(/.@./) # TODO: RFC 3696
     end
+  end
+
+  def must_be_valid_poll_type
+    self.errors.add(:poll_type, :invalid) unless
+      POLL_TYPES[poll_type]
   end
 
 end

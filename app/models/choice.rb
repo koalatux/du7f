@@ -23,7 +23,7 @@ class Choice < ActiveRecord::Base
   belongs_to :poll
   has_many :entries, :dependent => :destroy
 
-  def count_answers(option)
-    self.entries.count( :conditions => { "entries.answer" => option } )
+  def count_answers(answer)
+    self.entries.count( :conditions => { "entries.answer" => answer } )
   end
 end

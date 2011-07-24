@@ -67,7 +67,7 @@ table#poll td
 table#poll th,
 table#poll td.name,
 table#poll td.action,
-table#poll td.option,
+table#poll td.answer,
 table#poll td.empty,
 table#poll tr.empty td
 {
@@ -83,7 +83,6 @@ table#poll th.choice
 }
 
 table#poll th.choice,
-table#poll td.answer,
 table#poll td.choice,
 table#poll td.total
 {
@@ -98,7 +97,7 @@ table#poll th.name
 }
 
 table#poll td.action,
-table#poll td.option
+table#poll td.answer
 {
   white-space: nowrap;
   padding-left: 1em;

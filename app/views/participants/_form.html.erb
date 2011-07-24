@@ -18,11 +18,11 @@
 
 %>
 <% content_for :head do %>
-  <%# colors for options %>
+  <%# colors for answers %>
   <style type="text/css">
     /*<![CDATA[*/
-    <% @poll.options.each do |option_key, option| %>
-      <%= "td.option-#{option_key} { background-color: #{option[1]}; }" %>
+    <% @poll.answer_set.each do |answer_key, answer| %>
+      <%= "td.answer-#{answer_key} { background-color: #{answer[:color]}; }" %>
     <% end %>
     /*]]>*/
   </style>
@@ -55,8 +55,8 @@
     radio_buttons = []
     choice_mappings = ''
     f.fields_for :entries do |ef|
-      b = @poll.options.map do |option_key, _|
-        [ option_key, ef.radio_button(:answer, option_key) ]
+      b = @poll.answer_set.map do |answer_key, _|
+        [ answer_key, ef.radio_button(:answer, answer_key) ]
       end
       radio_buttons << Hash[b]
       choice_mappings << ef.hidden_field(:choice_id) + "\n"
@@ -82,7 +82,7 @@
           <td class="name"><%=h participant.name %></td>
           <%# TODO: handle event, when there are gaps %>
           <% participant.entries.each do |entry| %>
-            <td class="answer option-<%= entry.answer %>"><%=h @poll.options[entry.answer][0] %></td>
+            <td class="choice answer-<%= entry.answer %>"><%=h @poll.answer_set[entry.answer][:name] %></td>
           <% end %>
           <td class="action">
             <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
@@ -97,11 +97,11 @@
         <% end %>
 
         <%# edit participant %>
-        <% @poll.options.each_with_index do |option, i| %>
-          <% option_key = option[0]; option_name = option[1][0] %>
+        <% @poll.answer_set.each_with_index do |answer, i| %>
+          <% answer_key = answer[0]; answer_name = answer[1][:name] %>
           <tr>
             <% if i == 0 %>
-              <td rowspan="<%=h @poll.options.count %>" class="name">
+              <td rowspan="<%=h @poll.answer_set.count %>" class="name">
                 <%= f.text_field :name %><br />
                 <%= f.submit %>
                 <% unless participant.new_record? %>
@@ -111,9 +111,9 @@
               </td>
             <% end %>
             <% radio_buttons.each do |button| %>
-              <td class="choice option-<%= option_key %>"><%= button[option_key] %></td>
+              <td class="choice answer-<%= answer_key %>"><%= button[answer_key] %></td>
             <% end %>
-            <td class="option"><%=h option_name %></td>
+            <td class="answer"><%=h answer_name %></td>
           </tr>
         <% end %>
 
@@ -127,13 +127,13 @@
     <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
 
     <%# show results %>
-    <% @poll.options.each do |option_key, option| %>
+    <% @poll.answer_set.each do |answer_key, answer| %>
       <tr>
         <td class="empty"></td>
         <% @poll.choices.each do |choice| %>
-          <td class="total option-<%= option_key %>"><%=h choice.count_answers(option_key) %></td>
+          <td class="total answer-<%= answer_key %>"><%=h choice.count_answers(answer_key) %></td>
         <% end %>
-        <td class="option">Total <%=h option[0]%></td>
+        <td class="answer">Total <%=h answer[:name]%></td>
       </tr>
     <% end %>
 

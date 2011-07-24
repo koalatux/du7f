@@ -33,6 +33,10 @@
   <%= f.label :description %><br />
   <%= f.text_area :description %>
 </p>
+<% if @poll.new_record? %>
+  <%= f.label :poll_type %><br />
+  <%= f.select :poll_type, Poll::POLL_TYPES.map{ |k, v| [ v[:name], k ] } %>
+<% end %>
 
 <h2>Choices</h2>
 <% f.fields_for :choices do |cf| %>
