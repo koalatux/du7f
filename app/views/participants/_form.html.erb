@@ -27,6 +27,10 @@
     /*]]>*/
   </style>
 <% end %>
+
+<%= error_messages_for 'participant' %>
+<%= error_messages_for 'comment' %>
+
 <p>
   <b>Author:</b>
   <%=h @poll.author %>
@@ -42,28 +46,27 @@
   <%=h @poll.created_at %>
 </p>
 
-<p>
-  <b>Description:</b>
-</p>
-<%= simple_format(h @poll.description) %>
+<div>
+  <b>Description:</b><br />
+  <%= simple_format(h @poll.description) %>
+</div>
 
-<% form_for @participant, :url => form_url do |f| %>
-  <%= f.error_messages %>
-  <%=
-    # prepare radio buttons and print mapping to choice_ids
-    # can't do this inline, fields_for has to be the outer loop
-    radio_buttons = []
-    choice_mappings = ''
-    f.fields_for :entries do |ef|
-      b = @poll.answer_set.map do |answer_key, _|
-        [ answer_key, ef.radio_button(:answer, answer_key) ]
+<% def poll_table(f=nil) %>
+  <%= if f
+      # prepare radio buttons and print mapping to choice_ids
+      # can't do this inline, fields_for has to be the outer loop
+      radio_buttons = []
+      choice_mappings = ''
+      f.fields_for :entries do |ef|
+        b = @poll.answer_set.map do |answer_key, _|
+          [ answer_key, ef.radio_button(:answer, answer_key) ]
+        end
+        radio_buttons << Hash[b]
+        choice_mappings << ef.hidden_field(:choice_id) + "\n"
       end
-      radio_buttons << Hash[b]
-      choice_mappings << ef.hidden_field(:choice_id) + "\n"
+      choice_mappings
     end
-    choice_mappings
   %>
-
   <table id="poll">
 
     <%# table header %>
@@ -75,7 +78,7 @@
     </tr>
 
     <% @participants.each_with_index do |participant, p_i| %>
-      <% unless participant == @participant %>
+      <% if participant != @participant %>
 
         <%# show participants %>
         <tr>
@@ -84,14 +87,17 @@
           <% participant.entries.each do |entry| %>
             <td class="choice answer-<%= entry.answer %>"><%=h @poll.answer_set[entry.answer][:name] %></td>
           <% end %>
-          <td class="action">
-            <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
-            <%= link_to 'Destroy', destroy_participant_path(@poll, participant) %>
-          </td>
+          <% if params[:action] == "index" %>
+            <td class="action">
+              <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
+              <%= link_to 'Destroy', destroy_participant_path(@poll, participant) %>
+            </td>
+          <% end %>
         </tr>
 
-      <% else %>
+      <% elsif f %>
 
+        <%# empty row before edit %>
         <% if p_i != 0 %>
           <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
         <% end %>
@@ -104,8 +110,8 @@
               <td rowspan="<%=h @poll.answer_set.count %>" class="name">
                 <%= f.text_field :name %><br />
                 <%= f.submit %>
+                <%= link_to 'Cancel', participants_path %>
                 <% unless participant.new_record? %>
-                  <%= link_to 'Cancel', participants_path %>
                   <%= link_to 'Destroy', destroy_participant_path %>
                 <% end %>
               </td>
@@ -117,6 +123,7 @@
           </tr>
         <% end %>
 
+        <%# empty row after edit %>
         <% if p_i != @participants.count - 1 %>
           <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
         <% end %>
@@ -138,5 +145,39 @@
     <% end %>
 
   </table>
+<% end %>
 
+<% if @participant %>
+  <% form_for @participant, :url => form_url do |f| %>
+    <% poll_table f %>
+  <% end %>
+<% else %>
+  <% poll_table %>
+<% end %>
+
+
+<% if @poll.comments_allowed %>
+  <h2>Comments</h2>
+  <% @comments.each do |comment| %>
+    <div class="comment">
+      <b>Name:</b>
+      <%= h comment.name %><br />
+      <%= simple_format(h comment.comment) %>
+      <% if params[:action] == "index" %>
+        <%#= link_to 'Edit', edit_comment_path(@poll, comment) %>
+        <%= link_to 'Destroy', destroy_comment_path(@poll, comment) %>
+      <% end %>
+    </div>
+  <% end %>
+  <% if @comment %>
+    <% form_for @comment do |f| %>
+      <p>
+        <%= f.label :name %>
+        <%= f.text_field :name %><br />
+        <%= f.text_area :comment %><br />
+        <%= f.submit 'Add Comment' %>
+        <%= link_to 'Cancel', participants_path %>
+      </p>
+    <% end %>
+  <% end %>
 <% end %>

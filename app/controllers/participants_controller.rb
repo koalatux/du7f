@@ -28,6 +28,10 @@ class ParticipantsController < ApplicationController
       @participant.entries << choice.entries.new
     end
     @participants << @participant
+
+    if @poll.comments_allowed
+      @comment = @poll.comments.new
+    end
   end
   # index.html.erb
 

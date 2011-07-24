@@ -38,6 +38,9 @@ class ApplicationController < ActionController::Base
     # OPTIMIZE: do a select for only the needed columns
     @participants = Participant.find(:all, :conditions => {:poll_id => @poll.id}, :order => "participants.id, choices.id", :include => {:entries => :choice})
     # TODO: eager loading for counts
+    if @poll.comments_allowed
+      @comments = Comment.find(:all, :conditions => {:poll_id => @poll.id}, :order => :created_at)
+    end
   end
 
   def verify_admin_token

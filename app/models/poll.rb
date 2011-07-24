@@ -36,7 +36,7 @@ class Poll < ActiveRecord::Base
 
   before_create :set_tokens!
 
-  attr_accessible :author, :title, :description, :admin_email_address, :poll_type, :choices_attributes
+  attr_accessible :author, :title, :description, :admin_email_address, :poll_type, :comments_allowed, :choices_attributes
   attr_readonly :poll_type
   validates_presence_of :author, :title, :description, :poll_type
   #validates_associated :choices, :participants # TODO
@@ -46,6 +46,7 @@ class Poll < ActiveRecord::Base
 
   has_many :choices, :dependent => :destroy
   has_many :participants, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
   accepts_nested_attributes_for :choices
 
   def to_param

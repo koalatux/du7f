@@ -17,4 +17,9 @@
 
 
 %>
-<%= render :partial => 'participants/form', :locals => { :form_url => participants_path } %>
+
+<p>Really destroy this comment?</p>
+<p>
+<%= button_to "Destroy", comment_path, :method => :delete %>
+<%= link_to 'Cancel', participants_path %>
+</p>

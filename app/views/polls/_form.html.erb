@@ -37,6 +37,10 @@
   <%= f.label :poll_type %><br />
   <%= f.select :poll_type, Poll::POLL_TYPES.map{ |k, v| [ v[:name], k ] } %>
 <% end %>
+<p>
+  <%= f.check_box :comments_allowed %>
+  <%= f.label :comments_allowed %>
+</p>
 
 <h2>Choices</h2>
 <% f.fields_for :choices do |cf| %>

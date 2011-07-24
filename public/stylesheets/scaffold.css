@@ -107,3 +107,10 @@ table#poll tr.empty
 {
   height: 0.4em;
 }
+
+div.comment
+{
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+}

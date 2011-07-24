@@ -32,4 +32,10 @@ ActionController::Routing::Routes.draw do |map|
   map.destroy_participant ':token/participant/:id/destroy',   :controller => :participants, :action => :destroy_confirm, :conditions => { :method => :get    }
   map.participant         ':token/participant/:id',           :controller => :participants, :action => :destroy,         :conditions => { :method => :delete }
 
+  map.comments            ':token/comment',                   :controller => :comments,     :action => :create,          :conditions => { :method => :post   }
+ #map.edit_comment        ':token/comment/:id/edit',          :controller => :comments,     :action => :edit,            :conditions => { :method => :get    }
+ #map.comment             ':token/comment/:id',               :controller => :comments,     :action => :update,          :conditions => { :method => :put    }
+  map.destroy_comment     ':token/comment/:id/destroy',       :controller => :comments,     :action => :destroy_confirm, :conditions => { :method => :get    }
+  map.comment             ':token/comment/:id',               :controller => :comments,     :action => :destroy,         :conditions => { :method => :delete }
+
 end

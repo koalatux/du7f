@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110724134822) do
+ActiveRecord::Schema.define(:version => 20110724170700) do
 
   create_table "choices", :force => true do |t|
     t.string  "title"
@@ -17,6 +17,14 @@ ActiveRecord::Schema.define(:version => 20110724134822) do
   end
 
   add_index "choices", ["poll_id"], :name => "index_choices_on_poll_id"
+
+  create_table "comments", :force => true do |t|
+    t.string   "name"
+    t.text     "comment"
+    t.integer  "poll_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "entries", :force => true do |t|
     t.integer "answer"
@@ -45,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20110724134822) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "admin_email_address"
+    t.boolean  "comments_allowed"
   end
 
   add_index "polls", ["token"], :name => "index_polls_on_token", :unique => true
