@@ -17,15 +17,6 @@
 
 class Comment < ActiveRecord::Base
   validates_presence_of :name, :comment
-  validate :poll_allows_comments
 
   belongs_to :poll
-
-  private
-
-  def poll_allows_comments
-    self.errors.add(:poll, "does not allow comments") unless
-      self.poll.comments_allowed
-  end
-
 end

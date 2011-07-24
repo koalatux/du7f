@@ -72,7 +72,7 @@ class Poll < ActiveRecord::Base
 
   def must_have_at_least_one_choice
     self.errors.add(:choices, "count must be at least one") if
-      self.choices.find_all{|x| !x.destroyed?}.count == 0
+      self.choices.find_all{|x| !x.destroyed?}.size == 0
   end
 
   def must_have_nil_or_valid_admin_email_address

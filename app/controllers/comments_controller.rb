@@ -17,6 +17,7 @@
 
 class CommentsController < ApplicationController
   before_filter :get_comment, :except => [ :create ]
+  before_filter :verify_comments_allowed
 
   def create
     @comment = @poll.comments.new(params[:comment])
@@ -52,6 +53,13 @@ class CommentsController < ApplicationController
 
   def get_comment
     @comment = @poll.comments.find(params[:id])
+  end
+
+  def verify_comments_allowed
+    unless @poll.comments_allowed
+      flash[:error] = "Comments have been disabled in this poll."
+      redirect_to @poll
+    end
   end
 
 end

@@ -99,7 +99,7 @@
 
         <%# empty row before edit %>
         <% if p_i != 0 %>
-          <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
+          <tr class="empty"><td></td><td colspan="<%= @poll.choices.size %>"></td><td></td></tr>
         <% end %>
 
         <%# edit participant %>
@@ -107,7 +107,7 @@
           <% answer_key = answer[0]; answer_name = answer[1][:name] %>
           <tr>
             <% if i == 0 %>
-              <td rowspan="<%=h @poll.answer_set.count %>" class="name">
+              <td rowspan="<%=h @poll.answer_set.size %>" class="name">
                 <%= f.text_field :name %><br />
                 <%= f.submit %>
                 <%= link_to 'Cancel', participants_path %>
@@ -124,14 +124,14 @@
         <% end %>
 
         <%# empty row after edit %>
-        <% if p_i != @participants.count - 1 %>
-          <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
+        <% if p_i != @participants.size - 1 %>
+          <tr class="empty"><td></td><td colspan="<%= @poll.choices.size %>"></td><td></td></tr>
         <% end %>
 
       <% end %>
     <% end %>
 
-    <tr class="empty"><td></td><td colspan="<%= @poll.choices.count %>"></td><td></td></tr>
+    <tr class="empty"><td></td><td colspan="<%= @poll.choices.size %>"></td><td></td></tr>
 
     <%# show results %>
     <% @poll.answer_set.each do |answer_key, answer| %>
@@ -156,14 +156,14 @@
 <% end %>
 
 
-<% if @poll.comments_allowed %>
+<% if @poll.comments_allowed || @comments.size > 0 %>
   <h2>Comments</h2>
   <% @comments.each do |comment| %>
     <div class="comment">
       <b>Name:</b>
       <%= h comment.name %><br />
       <%= simple_format(h comment.comment) %>
-      <% if params[:action] == "index" %>
+      <% if @poll.comments_allowed && params[:action] == "index" %>
         <%#= link_to 'Edit', edit_comment_path(@poll, comment) %>
         <%= link_to 'Destroy', destroy_comment_path(@poll, comment) %>
       <% end %>
