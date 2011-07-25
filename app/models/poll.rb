@@ -21,15 +21,15 @@ class Poll < ActiveRecord::Base
       :name => "Yes/No",
       :answers => {
         1 => { :name => "yes", :color => "#7fff7f" },
-        2 => { :name => "no", :color => "#ff7f7f" }
+        3 => { :name => "no", :color => "#ff7f7f" }
       }
     },
     2 => {
       :name => "Yes/No/Maybe",
       :answers => {
         1 => { :name => "yes", :color => "#7fff7f" },
-        2 => { :name => "no", :color => "#ff7f7f" },
-        3 => { :name => "maybe", :color => "#ffffff" }
+        2 => { :name => "maybe", :color => "#ffffff" },
+        3 => { :name => "no", :color => "#ff7f7f" }
       }
     }
   }
