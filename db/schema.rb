@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110725002839) do
+ActiveRecord::Schema.define(:version => 20110725095656) do
 
   create_table "choices", :force => true do |t|
     t.string  "title"
@@ -26,13 +26,16 @@ ActiveRecord::Schema.define(:version => 20110725002839) do
     t.datetime "updated_at"
   end
 
+  add_index "comments", ["poll_id"], :name => "index_comments_on_poll_id"
+
   create_table "entries", :force => true do |t|
     t.integer "answer"
     t.integer "participant_id"
     t.integer "choice_id"
   end
 
-  add_index "entries", ["participant_id", "choice_id"], :name => "index_entries_on_participant_id_and_choice_id", :unique => true
+  add_index "entries", ["choice_id"], :name => "index_entries_on_choice_id"
+  add_index "entries", ["participant_id"], :name => "index_entries_on_participant_id"
 
   create_table "participants", :force => true do |t|
     t.string   "name"
