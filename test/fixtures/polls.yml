@@ -1,11 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  author: MyString
-  title: MyString
-  description: MyText
+alices_poll:
+  token: asdf
+  admin_token: qwert
+  author: Alice
+  title: "Alices Pizza Poll"
+  description: "Choose best Pizza"
+  poll_type: 2
+  admin_email_address: alice@example.org
+  comments_allowed: true
 
-two:
-  author: MyString
-  title: MyString
-  description: MyText
+bobs_poll:
+  token: tzui
+  admin_token: hjkl
+  author: Bob
+  title: "Bobs Beer Poll"
+  description: "Vote for my Beer"
+  poll_type: 1

@@ -1,9 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
-  comment: MyText
+  name: Hosli
+  comment: "Missing a lot of pizze."
+  poll: alices_poll
 
 two:
-  name: MyString
-  comment: MyText
+  name: Alice
+  comment: "I just listed my favourite pizze."
+  poll: alices_poll

@@ -1,11 +1,81 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  answer: MyString
-  participant: 
-  choice: 
+a1:
+  answer: 2
+  participant: alice
+  choice: margherita
 
-two:
-  answer: MyString
-  participant: 
-  choice: 
+a2:
+  answer: 2
+  participant: alice
+  choice: funghi
+
+a3:
+  answer: 1
+  participant: alice
+  choice: quattro_formaggi
+
+a4:
+  answer: 1
+  participant: alice
+  choice: gorgonzola
+
+c1:
+  answer: 1
+  participant: carla
+  choice: margherita
+
+c2:
+  answer: 3
+  participant: carla
+  choice: funghi
+
+c3:
+  answer: 2
+  participant: carla
+  choice: quattro_formaggi
+
+c4:
+  answer: 3
+  participant: carla
+  choice: gorgonzola
+
+b1:
+  answer: 1
+  participant: bob
+  choice: lager
+
+b2:
+  answer: 1
+  participant: bob
+  choice: weizen
+
+b3:
+  answer: 1
+  participant: bob
+  choice: amber
+
+b4:
+  answer: 1
+  participant: bob
+  choice: ale
+
+d1:
+  answer: 1
+  participant: duke
+  choice: lager
+
+d2:
+  answer: 3
+  participant: duke
+  choice: weizen
+
+d3:
+  answer: 3
+  participant: duke
+  choice: amber
+
+d4:
+  answer: 3
+  participant: duke
+  choice: ale

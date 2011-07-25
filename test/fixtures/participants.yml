@@ -1,9 +1,17 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  name: MyString
-  poll: 
+alice:
+  name: Alice
+  poll: alices_poll
 
-two:
-  name: MyString
-  poll: 
+carla:
+  name: Carla
+  poll: alices_poll
+
+bob:
+  name: Bob
+  poll: bobs_poll
+
+duke:
+  name: Duke
+  poll: bobs_poll

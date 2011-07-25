@@ -1,11 +1,33 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  title: MyString
-  type: MyString
-  poll: 
+margherita:
+  title: Margherita
+  poll: alices_poll
 
-two:
-  title: MyString
-  type: MyString
-  poll: 
+funghi:
+  title: Funghi
+  poll: alices_poll
+
+quattro_formaggi:
+  title: "Quattro Formaggi"
+  poll: alices_poll
+
+gorgonzola:
+  title: Gorgonzola
+  poll: alices_poll
+
+lager:
+  title: Lager
+  poll: bobs_poll
+
+weizen:
+  title: Weizen
+  poll: bobs_poll
+
+amber:
+  title: Amber
+  poll: bobs_poll
+
+ale:
+  title: Ale
+  poll: bobs_poll

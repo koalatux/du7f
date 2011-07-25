@@ -20,6 +20,7 @@ class Entry < ActiveRecord::Base
   validates_presence_of :participant, :choice, :answer
   validate :particpant_poll_and_choice_poll_must_match
   # TODO: check uniqueness and completeness
+  # TODO: check answer is allowed by poll type
 
   belongs_to :participant
   belongs_to :choice
