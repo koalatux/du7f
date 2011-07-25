@@ -57,4 +57,28 @@ class EmailNotifier < ActionMailer::Base
     body       :poll => participant.poll, :participant => participant
   end
 
+  def comment_created(comment)
+    subject    'Comment in your poll'
+    recipients comment.poll.admin_email_address
+    from       'do_not_reply@koalatux.ch'
+
+    body       :poll => comment.poll, :comment => comment
+  end
+
+  def comment_changed(comment)
+    subject    'Comment in your poll'
+    recipients comment.poll.admin_email_address
+    from       'do_not_reply@koalatux.ch'
+
+    body       :poll => comment.poll, :comment => comment
+  end
+
+  def comment_deleted(comment)
+    subject    'Comment in your poll'
+    recipients comment.poll.admin_email_address
+    from       'do_not_reply@koalatux.ch'
+
+    body       :poll => comment.poll, :comment => comment
+  end
+
 end
