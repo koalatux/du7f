@@ -109,7 +109,7 @@
             <% if i == 0 %>
               <td rowspan="<%=h @poll.answer_set.size %>" class="name">
                 <%= f.text_field :name %><br />
-                <%= f.submit %>
+                <%= submit_tag %>
                 <%= link_to 'Cancel', participants_path %>
                 <% unless participant.new_record? %>
                   <%= link_to 'Destroy', destroy_participant_path %>
@@ -175,7 +175,7 @@
         <%= f.label :name %>
         <%= f.text_field :name %><br />
         <%= f.text_area :comment %><br />
-        <%= f.submit 'Add Comment' %>
+        <%= submit_tag 'Add Comment' %>
         <%= link_to 'Cancel', participants_path %>
       </p>
     <% end %>
