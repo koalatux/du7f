@@ -83,7 +83,7 @@ class ParticipantsController < ApplicationController
 
   def verify_poll_is_open
     unless @poll.open?
-      flash[:error] = "Poll has been closed."
+      flash[:error] = "Poll is closed."
       redirect_to @poll
     end
   end

@@ -46,6 +46,13 @@
   <%=h @poll.created_at %>
 </p>
 
+<% if @poll.enable_close_at %>
+  <p>
+    <b>Closes at:</b>
+    <%=h @poll.close_at %>
+  </p>
+<% end %>
+
 <div>
   <b>Description:</b><br />
   <%= simple_format(h @poll.description) %>
@@ -166,6 +173,8 @@
     <div class="comment">
       <b>Name:</b>
       <%= h comment.name %><br />
+      <b>Date:</b>
+      <%=h comment.created_at %><br />
       <%= simple_format(h comment.comment) %>
       <% if @poll.comments_allowed && params[:action] == "index" %>
         <%#= link_to 'Edit', edit_comment_path(@poll, comment) %>

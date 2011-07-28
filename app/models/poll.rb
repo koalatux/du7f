@@ -78,11 +78,11 @@ class Poll < ActiveRecord::Base
   end
 
   def enable_close_at=(value)
-    @disable_close_at = (value == "0")
+    @disable_close_at = !ActiveRecord::ConnectionAdapters::Column::value_to_boolean(value)
     if @disable_close_at
       self[:close_at] = nil
     else
-      self[:close_at] ||= 0
+      self[:close_at] ||= Time.at(0).utc
     end
   end
 
