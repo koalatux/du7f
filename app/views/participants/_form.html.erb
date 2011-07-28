@@ -87,7 +87,7 @@
           <% participant.entries.each do |entry| %>
             <td class="choice answer-<%= entry.answer %>"><%=h @poll.answer_set[entry.answer][:name] %></td>
           <% end %>
-          <% if params[:action] == "index" %>
+          <% if params[:action] == "index" && @poll.open? %>
             <td class="action">
               <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
               <%= link_to 'Destroy', destroy_participant_path(@poll, participant) %>
@@ -147,12 +147,16 @@
   </table>
 <% end %>
 
-<% if @participant %>
+<% if @participant && @poll.open? %>
   <% form_for @participant, :url => form_url do |f| %>
     <% poll_table f %>
   <% end %>
 <% else %>
   <% poll_table %>
+<% end %>
+
+<% unless @poll.open? %>
+  <p>This poll has been closed.</p>
 <% end %>
 
 
