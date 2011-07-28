@@ -34,7 +34,7 @@ class Entry < ActiveRecord::Base
 
   def answer_must_be_allowed_by_poll_type
     self.errors.add(:answer, :invalid) if
-      self.participant && self.participant.poll && Poll::POLL_TYPES[self.participant.poll.poll_type] && !Poll::POLL_TYPES[self.participant.poll.poll_type][:answers][self.answer]
+      self.participant && self.participant.poll && !self.participant.poll.answer_set[self.answer]
   end
 
 end
