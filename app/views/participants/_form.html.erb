@@ -43,13 +43,13 @@
 
 <p>
   <b>Created at:</b>
-  <%=h @poll.created_at %>
+  <%=h @poll.created_at.getlocal %>
 </p>
 
 <% if @poll.enable_close_at %>
   <p>
     <b>Closes at:</b>
-    <%=h @poll.close_at %>
+    <%=h @poll.close_at.getlocal %>
   </p>
 <% end %>
 
@@ -174,7 +174,7 @@
       <b>Name:</b>
       <%= h comment.name %><br />
       <b>Date:</b>
-      <%=h comment.created_at %><br />
+      <%=h comment.created_at.getlocal %><br />
       <%= simple_format(h comment.comment) %>
       <% if @poll.comments_allowed && params[:action] == "index" %>
         <%#= link_to 'Edit', edit_comment_path(@poll, comment) %>

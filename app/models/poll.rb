@@ -66,7 +66,7 @@ class Poll < ActiveRecord::Base
   end
 
   def close_at
-    self[:close_at] || Time.now.utc
+    self[:close_at] && self[:close_at].getlocal || Time.now
   end
 
   def close_at=(value)
@@ -82,7 +82,7 @@ class Poll < ActiveRecord::Base
     if @disable_close_at
       self[:close_at] = nil
     else
-      self[:close_at] ||= Time.at(0).utc
+      self[:close_at] ||= Time.at(0)
     end
   end
 
