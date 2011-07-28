@@ -39,6 +39,7 @@ class Poll < ActiveRecord::Base
   attr_accessible :author, :title, :description, :admin_email_address, :poll_type, :comments_allowed, :choices_attributes
   attr_readonly :poll_type
   validates_presence_of :author, :title, :description, :poll_type
+  # validate presence of :token and :admin_token # TODO
   #validates_associated :choices, :participants # TODO
   validate :must_have_at_least_one_choice
   validate :must_have_nil_or_valid_admin_email_address
