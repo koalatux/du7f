@@ -19,14 +19,22 @@ class Entry < ActiveRecord::Base
   attr_accessible :answer, :choice_id
   validates_presence_of :participant, :choice, :answer
   validate :particpant_poll_and_choice_poll_must_match
+  validate :answer_must_be_allowed_by_poll_type
   # TODO: check uniqueness and completeness
-  # TODO: check answer is allowed by poll type
 
   belongs_to :participant
   belongs_to :choice
 
+  private
+
   def particpant_poll_and_choice_poll_must_match
-    errors.add_to_base("participant and choice are in different polls") if
+    self.errors.add_to_base("participant and choice are in different polls") if
       self.participant && self.choice && self.participant.poll_id != self.choice.poll_id
   end
+
+  def answer_must_be_allowed_by_poll_type
+    self.errors.add(:answer, :invalid) if
+      self.participant && self.participant.poll && Poll::POLL_TYPES[self.participant.poll.poll_type] && !Poll::POLL_TYPES[self.participant.poll.poll_type][:answers][self.answer]
+  end
+
 end

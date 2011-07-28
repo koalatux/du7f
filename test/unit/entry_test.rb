@@ -44,4 +44,9 @@ class EntryTest < ActiveSupport::TestCase
     assert !@entry.save
   end
 
+  test "invalid entry" do
+    @entry.answer = 2
+    assert !@entry.save
+  end
+
 end
