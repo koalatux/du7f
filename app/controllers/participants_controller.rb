@@ -18,6 +18,7 @@
 class ParticipantsController < ApplicationController
   before_filter :get_poll_associates, :only => [ :index, :edit ]
   before_filter :get_participant, :except => [ :index, :create ]
+  before_filter :verify_poll_is_open, :except => [ :index ]
 
   # TODO: ensure time stamp update, when only an entry gets changed
 
@@ -78,6 +79,13 @@ class ParticipantsController < ApplicationController
 
   def get_participant
     @participant = @poll.participants.find(params[:id])
+  end
+
+  def verify_poll_is_open
+    unless @poll.open?
+      flash[:error] = "Poll has been closed."
+      redirect_to @poll
+    end
   end
 
 end

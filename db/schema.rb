@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110725095656) do
+ActiveRecord::Schema.define(:version => 20110728082901) do
 
   create_table "choices", :force => true do |t|
     t.string  "title"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20110725095656) do
     t.datetime "updated_at"
     t.string   "admin_email_address"
     t.boolean  "comments_allowed"
+    t.datetime "close_at"
   end
 
   add_index "polls", ["token"], :name => "index_polls_on_token", :unique => true

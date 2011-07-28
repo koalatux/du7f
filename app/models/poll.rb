@@ -36,7 +36,8 @@ class Poll < ActiveRecord::Base
 
   before_create :set_tokens!
 
-  attr_accessible :author, :title, :description, :admin_email_address, :poll_type, :comments_allowed, :choices_attributes
+  attr_accessor :enable_close_at
+  attr_accessible :author, :title, :description, :admin_email_address, :poll_type, :comments_allowed, :choices_attributes, :close_at, :enable_close_at
   attr_readonly :poll_type
   validates_presence_of :author, :title, :description, :poll_type
   # validate presence of :token and :admin_token # TODO
@@ -62,6 +63,31 @@ class Poll < ActiveRecord::Base
     self.choices.each do |choice|
       choice.destroy if choice.title.blank?
     end
+  end
+
+  def close_at
+    self[:close_at] || Time.now.utc
+  end
+
+  def close_at=(value)
+    @disable_close_at || self[:close_at] = value
+  end
+
+  def enable_close_at
+    !!self[:close_at]
+  end
+
+  def enable_close_at=(value)
+    @disable_close_at = (value == "0")
+    if @disable_close_at
+      self[:close_at] = nil
+    else
+      self[:close_at] ||= 0
+    end
+  end
+
+  def open?
+    not enable_close_at && (close_at.utc <= Time.now.utc)
   end
 
   private
