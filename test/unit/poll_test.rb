@@ -102,6 +102,13 @@ class PollTest < ActiveSupport::TestCase
     @poll.close_at = time
     assert @poll.enable_close_at
     assert_equal time, @poll.close_at
+
+    @poll.enable_close_at = nil
+    assert !@poll.enable_close_at
+    assert_equal time, @poll.close_at
+    @poll.enable_close_at = '1'
+    assert @poll.enable_close_at
+    assert_equal time, @poll.close_at
   end
 
   test "close at when closing disabled" do
