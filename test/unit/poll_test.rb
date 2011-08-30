@@ -78,4 +78,41 @@ class PollTest < ActiveSupport::TestCase
     assert_equal 1, @poll.choices.size
   end
 
+  test "close at" do
+    time = 2.days.ago
+    @poll.close_at = time
+    assert @poll.enable_close_at
+    assert_equal time, @poll.close_at
+  end
+
+  test "close at after enabling" do
+    @poll.enable_close_at = nil
+    assert !@poll.enable_close_at
+    @poll.enable_close_at = '1'
+    assert @poll.enable_close_at
+    assert_equal Time.at(0), @poll.close_at
+  end
+
+  test "close at when closing disabled" do
+    time = Time.now
+    close_time = @poll.close_at
+    assert !@poll.enable_close_at
+    assert close_time >= time && close_time <= Time.now
+  end
+
+  test "close at stays disabled" do
+    @poll.enable_close_at = nil
+    assert !@poll.enable_close_at
+    @poll.close_at = 1.day.ago
+    assert !@poll.enable_close_at
+  end
+
+  test "open" do
+    assert @poll.open?
+    @poll.close_at = 1.minute.ago
+    assert !@poll.open?
+    @poll.close_at = 1.minute.from_now
+    assert @poll.open?
+  end
+
 end
