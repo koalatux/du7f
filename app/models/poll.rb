@@ -66,11 +66,11 @@ class Poll < ActiveRecord::Base
   end
 
   def close_at
-    self[:close_at] && self[:close_at].getlocal || Time.now
+    self[:close_at] && self[:close_at].getlocal || @close_at || Time.now
   end
 
   def close_at=(value)
-    if !@disable_close_at
+    if enable_close_at
       self[:close_at] = value
     else
       @close_at = value
@@ -82,8 +82,8 @@ class Poll < ActiveRecord::Base
   end
 
   def enable_close_at=(value)
-    @disable_close_at = !ActiveRecord::ConnectionAdapters::Column::value_to_boolean(value)
-    if @disable_close_at
+    if !ActiveRecord::ConnectionAdapters::Column::value_to_boolean(value)
+      @close_at = self[:close_at]
       self[:close_at] = nil
     else
       self[:close_at] ||= @close_at || Time.at(0)
