@@ -88,9 +88,11 @@ class PollTest < ActiveSupport::TestCase
   test "close at after enabling" do
     @poll.enable_close_at = nil
     assert !@poll.enable_close_at
+    time = 2.days.ago
+    @poll.close_at = time
     @poll.enable_close_at = '1'
     assert @poll.enable_close_at
-    assert_equal Time.at(0), @poll.close_at
+    assert_equal time, @poll.close_at
   end
 
   test "close at when closing disabled" do

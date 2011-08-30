@@ -70,7 +70,11 @@ class Poll < ActiveRecord::Base
   end
 
   def close_at=(value)
-    @disable_close_at || self[:close_at] = value
+    if !@disable_close_at
+      self[:close_at] = value
+    else
+      @close_at = value
+    end
   end
 
   def enable_close_at
@@ -82,7 +86,7 @@ class Poll < ActiveRecord::Base
     if @disable_close_at
       self[:close_at] = nil
     else
-      self[:close_at] ||= Time.at(0)
+      self[:close_at] ||= @close_at || Time.at(0)
     end
   end
 
