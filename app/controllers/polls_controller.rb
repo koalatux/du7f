@@ -36,6 +36,7 @@ class PollsController < ApplicationController
   def create
     @poll = Poll.new(params[:poll])
 
+    # TODO: constant string or i18n for "Add Choice"
     if params[:commit] == "Add Choice"
       # not saving, just adding more choices
       @poll.choices << @poll.choices.new
