@@ -96,9 +96,14 @@ class Poll < ActiveRecord::Base
 
   private
 
+  def create_token
+    # 16 bytes of random data encoded as base64url without padding
+    ActiveSupport::SecureRandom.base64(16)[0...22].tr("+/", "-_")
+  end
+
   def set_tokens!
-    self.token = ActiveSupport::SecureRandom.hex(16)
-    self.admin_token = ActiveSupport::SecureRandom.hex(16)
+    self.token = create_token
+    self.admin_token = create_token
   end
 
   def must_have_at_least_one_choice
