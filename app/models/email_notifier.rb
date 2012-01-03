@@ -33,6 +33,14 @@ class EmailNotifier < ActionMailer::Base
     body       :poll => poll
   end
 
+  def poll_deleted(poll)
+    subject    'Your poll was removed'
+    recipients poll.admin_email_address
+    from       'do_not_reply@koalatux.ch'
+
+    body       :poll => poll
+  end
+
   def participant_created(participant)
     subject    'Activity in your poll'
     recipients participant.poll.admin_email_address

@@ -66,7 +66,7 @@ class PollsController < ApplicationController
   def update
     # TODO: destroy_empty_choices not implemented here, first implement ability to add choices and ask for confirmation
     if @poll.update_attributes(params[:poll])
-      EmailNotifier.deliver_poll_changed(@poll) if @poll.admin_email_address # TODO only send on admin_email_address change
+      EmailNotifier.deliver_poll_changed(@poll) if @poll.admin_email_address
       flash[:notice] = 'Poll was successfully updated.'
       redirect_to @poll
     else
@@ -80,6 +80,7 @@ class PollsController < ApplicationController
   # DELETE /0123456789abcdef.../admin/fedcba9876543210...
   def destroy
     @poll.destroy
+    EmailNotifier.deliver_poll_deleted(@poll) if @poll.admin_email_address
     flash[:notice] = "Poll destroyed."
     redirect_to polls_path
   end

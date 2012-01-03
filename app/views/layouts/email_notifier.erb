@@ -1,12 +1,12 @@
 Hallo <%= @poll.author %>,
 
 <%= yield %>
-Your poll is accessible at:
+<% unless @poll.destroyed? %>Your poll is accessible at:
 <%= poll_url(@poll) %>
 For administering your poll visit:
 <%= edit_poll_admin_url(:token => @poll.token, :admin_token => @poll.admin_token) %>
 
-Kind regards,
+<% end %>Kind regards,
 your du7f provider
 
 -- 
