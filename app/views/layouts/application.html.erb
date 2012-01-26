@@ -27,6 +27,7 @@
   <%= yield :head %>
 </head>
 <body>
+  <h1><%= link_to 'du<span title="ASCII 0x7f: DEL">7f</span>', polls_path %></h1>
 
 <% if flash[:notice] %><p style="color: green"><%= flash[:notice] %></p><% end %>
 <% if flash[:error] %><p style="color: red"><%= flash[:error] %></p><% end %>
