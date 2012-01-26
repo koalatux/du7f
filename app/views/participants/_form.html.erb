@@ -55,7 +55,7 @@
 
 <div>
   <b>Description:</b><br />
-  <%= auto_link(simple_format(h @poll.description)) %>
+  <%= auto_link(simple_format(h @poll.description), :html => { :rel => "nofollow" }) %>
 </div>
 
 <% def poll_table(f=nil) %>
@@ -175,7 +175,7 @@
       <%= h comment.name %><br />
       <b>Date:</b>
       <%=h comment.created_at.getlocal %><br />
-      <%= auto_link(simple_format(h comment.comment)) %>
+      <%= auto_link(simple_format(h comment.comment), :html => { :rel => "nofollow" }) %>
       <% if @poll.comments_allowed && params[:action] == "index" %>
         <%#= link_to 'Edit', edit_comment_path(@poll, comment) %>
         <%= link_to 'Destroy', destroy_comment_path(@poll, comment) %>
