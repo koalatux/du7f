@@ -17,6 +17,7 @@
 
 
 %>
+<% @title = "#{@poll.title}-admin" %>
 
 <p>Really destroy this poll?</p>
 <%= button_to "Destroy", poll_admin_path, :method => :delete %>

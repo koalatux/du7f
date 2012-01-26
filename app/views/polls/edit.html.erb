@@ -17,6 +17,7 @@
 
 
 %>
+<% @title = "#{@poll.title_was}-admin" %>
 <h1>Editing poll</h1>
 
 <% form_for @poll, :url => poll_admin_path do |f| %>
