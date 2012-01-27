@@ -78,6 +78,27 @@ table#poll tr.empty td
   border-style: none;
 }
 
+table#poll th.choice.winner
+{
+  border: 3px solid;
+}
+
+table#poll td.total.winner
+{
+  border-left: 3px solid;
+  border-right: 3px solid;
+}
+
+table#poll tr.empty + tr td.total.winner
+{
+  border-top: 3px solid;
+}
+
+table#poll tr:last-child td.total.winner
+{
+  border-bottom: 3px solid;
+}
+
 table#poll th.name,
 table#poll th.choice
 {
