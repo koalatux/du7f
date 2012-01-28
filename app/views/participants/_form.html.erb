@@ -67,7 +67,7 @@
       choice_mappings = ''
       f.fields_for :entries do |ef|
         b = @poll.answer_set.map do |answer_key, _|
-          [ answer_key, ef.radio_button(:answer, answer_key) ]
+          [ answer_key, "<td class=\"choice answer-#{answer_key}#{" winner" if @poll.winner_choices.include?(ef.object.choice_id)}\">#{ef.radio_button(:answer, answer_key)}</td>" ]
         end
         radio_buttons << Hash[b]
         choice_mappings << ef.hidden_field(:choice_id) + "\n"
@@ -81,7 +81,7 @@
     <tr>
       <th class="name">Name</th>
       <% @poll.choices.each do |choice| %>
-        <th class="choice"><%=h choice.title %></th>
+        <th class="choice<%= " winner" if @poll.winner_choices.include?(choice.id) %>"><%=h choice.title %></th>
       <% end %>
     </tr>
 
@@ -93,7 +93,7 @@
           <td class="name"><%=h participant.name %></td>
           <%# TODO: handle event, when there are gaps %>
           <% participant.entries.each do |entry| %>
-            <td class="choice answer-<%= entry.answer %>"><%=h @poll.answer_set[entry.answer][:name] %></td>
+            <td class="choice answer-<%= entry.answer %><%= " winner" if @poll.winner_choices.include?(entry.choice_id) %>"><%=h @poll.answer_set[entry.answer][:name] %></td>
           <% end %>
           <% if params[:action] == "index" && @poll.open? %>
             <td class="action">
@@ -125,7 +125,7 @@
               </td>
             <% end %>
             <% radio_buttons.each do |button| %>
-              <td class="choice answer-<%= answer_key %>"><%= button[answer_key] %></td>
+              <%= button[answer_key] %>
             <% end %>
             <td class="answer"><%=h answer_name %></td>
           </tr>
@@ -146,7 +146,7 @@
       <tr>
         <td class="empty"></td>
         <% @poll.choices.each do |choice| %>
-          <td class="total answer-<%= answer_key %>"><%=h choice.count_answers(answer_key) %></td>
+          <td class="total answer-<%= answer_key %><%= " winner" if @poll.winner_choices.include?(choice.id) %>"><%=h choice.count_answers(answer_key) %></td>
         <% end %>
         <td class="answer">Total <%=h answer[:name]%></td>
       </tr>

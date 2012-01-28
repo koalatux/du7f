@@ -94,6 +94,20 @@ class Poll < ActiveRecord::Base
     not enable_close_at && (close_at.utc <= Time.now.utc)
   end
 
+  def winner_choices
+    return @winner_choices if @winner_choices
+    win = self.choices
+    answers=[3] # TODO: integrate this in poll_type model eventually
+    answers << 2 if self.poll_type == 2
+    answers.each do |i|
+      min = win.map{|c| c.count_answers(i)}.min
+      win = win.select{|c| c.count_answers(i) == min}
+    end
+    win = [] if win.size == self.choices.size
+    win = win.map{|c| c.id}
+    @winner_choices = win
+  end
+
   private
 
   def create_token

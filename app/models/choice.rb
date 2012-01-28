@@ -24,6 +24,7 @@ class Choice < ActiveRecord::Base
   has_many :entries, :dependent => :destroy
 
   def count_answers(answer)
-    self.entries.count( :conditions => { "entries.answer" => answer } )
+    @count_answers or @count_answers = {}
+    @count_answers[answer] or @count_answers[answer] = self.entries.count( :conditions => { "entries.answer" => answer } )
   end
 end
