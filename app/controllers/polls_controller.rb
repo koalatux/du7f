@@ -22,7 +22,7 @@ class PollsController < ApplicationController
 
   # GET /new
   def new
-    @poll = Poll.new
+    @poll = Poll.new(params[:poll])
     (0...5).each do
       @poll.choices << @poll.choices.new
     end
