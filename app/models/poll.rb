@@ -97,6 +97,13 @@ class Poll < ActiveRecord::Base
   def winner_choices
     return @winner_choices if @winner_choices
     win = self.choices
+    # no winner if there are unanswered choices
+    win.each do |c|
+      if c.entries.size != self.participants.size then
+        @winner_choices = []
+        return []
+      end
+    end
     answers=[3] # TODO: integrate this in poll_type model eventually
     answers << 2 if self.poll_type == 2
     answers.each do |i|

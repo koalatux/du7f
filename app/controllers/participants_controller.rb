@@ -53,6 +53,12 @@ class ParticipantsController < ApplicationController
     end
   end
 
+  def edit
+    answers = @participant.entries.map{|e| e.choice}
+    (@poll.choices - answers).each do |choice|
+      @participant.entries << choice.entries.new
+    end
+  end
   # edit.html.erb
 
   def update

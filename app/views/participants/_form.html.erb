@@ -95,6 +95,9 @@
           <% participant.entries.each do |entry| %>
             <td class="choice answer-<%= entry.answer %><%= " winner" if @poll.winner_choices.include?(entry.choice_id) %>"><%=h @poll.answer_set[entry.answer][:name] %></td>
           <% end %>
+          <% (0...(@poll.choices.size - participant.entries.size)).each do |i| %>
+            <td class="choice answer-unknown">?</td>
+          <% end %>
           <% if params[:action] == "index" && @poll.open? %>
             <td class="action">
               <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
