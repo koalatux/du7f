@@ -18,73 +18,73 @@
 class EmailNotifier < ActionMailer::Base
 
   def poll_created(poll)
-    subject    'Your poll was created'
+    subject    "Your new poll \"#{poll.title}\""
     recipients poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => poll
   end
 
   def poll_changed(poll)
-    subject    'Your poll was changed'
+    subject    "Changes at your poll \"#{poll.title}\""
     recipients poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => poll
   end
 
   def poll_deleted(poll)
-    subject    'Your poll was removed'
+    subject    "Removal of your poll \"#{poll.title}\""
     recipients poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => poll
   end
 
   def participant_created(participant)
-    subject    'Activity in your poll'
+    subject    "Activity in your poll \"#{participant.poll.title}\""
     recipients participant.poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => participant.poll, :participant => participant
   end
 
   def participant_changed(participant)
-    subject    'Activity in your poll'
+    subject    "Activity in your poll \"#{participant.poll.title}\""
     recipients participant.poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => participant.poll, :participant => participant
   end
 
   def participant_deleted(participant)
-    subject    'Activity in your poll'
+    subject    "Activity in your poll \"#{participant.poll.title}\""
     recipients participant.poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => participant.poll, :participant => participant
   end
 
   def comment_created(comment)
-    subject    'Comment in your poll'
+    subject    "Comment in your poll \"#{comment.poll.title}\""
     recipients comment.poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => comment.poll, :comment => comment
   end
 
   def comment_changed(comment)
-    subject    'Comment in your poll'
+    subject    "Comment in your poll \"#{comment.poll.title}\""
     recipients comment.poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => comment.poll, :comment => comment
   end
 
   def comment_deleted(comment)
-    subject    'Comment in your poll'
+    subject    "Comment in your poll \"#{comment.poll.title}\""
     recipients comment.poll.admin_email_address
-    from       'do_not_reply@koalatux.ch'
+    from       MAIL_FROM
 
     body       :poll => comment.poll, :comment => comment
   end

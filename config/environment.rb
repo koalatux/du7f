@@ -39,6 +39,8 @@ Rails::Initializer.run do |config|
   config.action_mailer.default_url_options = { :host => "du7f.koalatux.ch" }
 end
 
+MAIL_FROM = 'do_not_reply@du7f.koalatux.ch'
+
 ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => false,
   :domain => 'du7f.koalatux.ch'
