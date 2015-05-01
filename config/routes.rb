@@ -15,27 +15,83 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-ActionController::Routing::Routes.draw do |map|
+Du7f::Application.routes.draw do
+  # The priority is based upon order of creation:
+  # first created -> highest priority.
 
-  map.new_poll           'new',                               :controller => :polls,        :action => :new,             :conditions => { :method => :get    }
-  map.polls              '',                                  :controller => :polls,        :action => :index,           :conditions => { :method => :get    }
-  map.polls              '',                                  :controller => :polls,        :action => :create,          :conditions => { :method => :post   }
-  map.edit_poll_admin    ':token/admin/:admin_token/edit',    :controller => :polls,        :action => :edit,            :conditions => { :method => :get    }
-  map.poll_admin         ':token/admin/:admin_token',         :controller => :polls,        :action => :update,          :conditions => { :method => :put    }
-  map.destroy_poll_admin ':token/admin/:admin_token/destroy', :controller => :polls,        :action => :destroy_confirm, :conditions => { :method => :get    }
-  map.poll_admin         ':token/admin/:admin_token',         :controller => :polls,        :action => :destroy,         :conditions => { :method => :delete }
+  # Sample of regular route:
+  #   match 'products/:id' => 'catalog#view'
+  # Keep in mind you can assign values other than :controller and :action
 
-  map.poll                ':token',                           :controller => :participants, :action => :index,           :conditions => { :method => :get    }
-  map.participants        ':token',                           :controller => :participants, :action => :create,          :conditions => { :method => :post   }
-  map.edit_participant    ':token/participant/:id/edit',      :controller => :participants, :action => :edit,            :conditions => { :method => :get    }
-  map.participant         ':token/participant/:id',           :controller => :participants, :action => :update,          :conditions => { :method => :put    }
-  map.destroy_participant ':token/participant/:id/destroy',   :controller => :participants, :action => :destroy_confirm, :conditions => { :method => :get    }
-  map.participant         ':token/participant/:id',           :controller => :participants, :action => :destroy,         :conditions => { :method => :delete }
+  # Sample of named route:
+  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
+  # This route can be invoked with purchase_url(:id => product.id)
 
-  map.comments            ':token/comment',                   :controller => :comments,     :action => :create,          :conditions => { :method => :post   }
- #map.edit_comment        ':token/comment/:id/edit',          :controller => :comments,     :action => :edit,            :conditions => { :method => :get    }
- #map.comment             ':token/comment/:id',               :controller => :comments,     :action => :update,          :conditions => { :method => :put    }
-  map.destroy_comment     ':token/comment/:id/destroy',       :controller => :comments,     :action => :destroy_confirm, :conditions => { :method => :get    }
-  map.comment             ':token/comment/:id',               :controller => :comments,     :action => :destroy,         :conditions => { :method => :delete }
+  # Sample resource route (maps HTTP verbs to controller actions automatically):
+  #   resources :products
+
+  # Sample resource route with options:
+  #   resources :products do
+  #     member do
+  #       get 'short'
+  #       post 'toggle'
+  #     end
+  #
+  #     collection do
+  #       get 'sold'
+  #     end
+  #   end
+
+  # Sample resource route with sub-resources:
+  #   resources :products do
+  #     resources :comments, :sales
+  #     resource :seller
+  #   end
+
+  # Sample resource route with more complex sub-resources
+  #   resources :products do
+  #     resources :comments
+  #     resources :sales do
+  #       get 'recent', :on => :collection
+  #     end
+  #   end
+
+  # Sample resource route within a namespace:
+  #   namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
+  #     resources :products
+  #   end
+
+  # You can have the root of your site routed with "root"
+  # just remember to delete public/index.html.
+  # root :to => 'welcome#index'
+
+  # See how all your routes lay out with "rake routes"
+
+  # This is a legacy wild controller route that's not recommended for RESTful applications.
+  # Note: This route will make all actions in every controller accessible via GET requests.
+  # match ':controller(/:action(/:id))(.:format)'
+
+  get    'new',                               to: 'polls#new',                    as: :new_poll
+  get    '',                                  to: 'polls#index',                  as: :polls
+  post   '',                                  to: 'polls#create',                 as: :polls
+  get    ':token/admin/:admin_token/edit',    to: 'polls#edit',                   as: :edit_poll_admin
+  put    ':token/admin/:admin_token',         to: 'polls#update',                 as: :poll_admin
+  get    ':token/admin/:admin_token/destroy', to: 'polls#destroy_confirm',        as: :destroy_poll_admin
+  delete ':token/admin/:admin_token',         to: 'polls#destroy',                as: :poll_admin
+
+  get    ':token',                            to: 'participants#index',           as: :poll
+  post   ':token',                            to: 'participants#create',          as: :participants
+  get    ':token/participant/:id/edit',       to: 'participants#edit',            as: :edit_participant
+  put    ':token/participant/:id',            to: 'participants#update',          as: :participant
+  get    ':token/participant/:id/destroy',    to: 'participants#destroy_confirm', as: :destroy_participant
+  delete ':token/participant/:id',            to: 'participants#destroy',         as: :participant
+
+  post   ':token/comment',                    to: 'comments#create',              as: :comments
+  #get    ':token/comment/:id/edit',           to: 'comments#edit',                as: :edit_comment
+  #put    ':token/comment/:id',                to: 'comments#update',              as: :comment
+  get    ':token/comment/:id/destroy',        to: 'comments#destroy_confirm',     as: :destroy_comment
+  delete ':token/comment/:id',                to: 'comments#destroy',             as: :comment
 
 end

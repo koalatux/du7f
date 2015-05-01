@@ -46,7 +46,7 @@ class PollsController < ApplicationController
 
     @poll.destroy_empty_choices!
     # setting the associations here is needed, because of the validation in the choices
-    @poll.choices.each{ |c| c.poll = @poll }
+    @poll.choices.each{ |c| c.poll = @poll unless c.destroyed? }
 
     if @poll.save
       EmailNotifier.deliver_poll_created(@poll) if @poll.admin_email_address

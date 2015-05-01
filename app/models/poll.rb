@@ -119,7 +119,7 @@ class Poll < ActiveRecord::Base
 
   def create_token
     # 16 bytes of random data encoded as base64url without padding
-    ActiveSupport::SecureRandom.base64(16)[0...22].tr("+/", "-_")
+    SecureRandom.base64(16)[0...22].tr("+/", "-_")
   end
 
   def set_tokens!

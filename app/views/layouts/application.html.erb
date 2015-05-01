@@ -23,11 +23,11 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= @title and "#{h @title} - " %>du7f - just simple polls</title>
-  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'application' %>
   <%= yield :head %>
 </head>
 <body>
-  <h1><%= link_to 'du<span title="ASCII 0x7f: DEL">7f</span>', polls_path %></h1>
+  <h1><%= link_to polls_path do %>du<span title="ASCII 0x7f: DEL">7f</span><% end %></h1>
 
 <% if flash[:notice] %><p style="color: green"><%= flash[:notice] %></p><% end %>
 <% if flash[:error] %><p style="color: red"><%= flash[:error] %></p><% end %>

@@ -60,21 +60,25 @@
 </div>
 
 <% def poll_table(f=nil) %>
-  <%= if f
+  <% if f
       # prepare radio buttons and print mapping to choice_ids
       # can't do this inline, fields_for has to be the outer loop
       radio_buttons = []
-      choice_mappings = ''
+      choice_mappings = []
       f.fields_for :entries do |ef|
         b = @poll.answer_set.map do |answer_key, _|
-          [ answer_key, "<td class=\"choice answer-#{answer_key}#{" winner" if @poll.winner_choices.include?(ef.object.choice_id)}\">#{ef.radio_button(:answer, answer_key)}</td>" ]
+          [ answer_key, raw("<td class=\"choice answer-#{answer_key}#{" winner" if @poll.winner_choices.include?(ef.object.choice_id)}\">#{ef.radio_button(:answer, answer_key)}</td>") ]
         end
         radio_buttons << Hash[b]
-        choice_mappings << ef.hidden_field(:choice_id) + "\n"
+        choice_mappings << ef.hidden_field(:choice_id)
       end
-      choice_mappings
     end
   %>
+
+  <% choice_mappings.each do |mapping| %>
+    <%= mapping %>
+  <% end %>
+
   <table id="poll">
 
     <%# table header %>
@@ -159,7 +163,7 @@
 <% end %>
 
 <% if @participant && @poll.open? %>
-  <% form_for @participant, :url => form_url do |f| %>
+  <%= form_for @participant, :url => form_url do |f| %>
     <% poll_table f %>
   <% end %>
 <% else %>
@@ -187,7 +191,7 @@
     </div>
   <% end %>
   <% if @comment %>
-    <% form_for @comment do |f| %>
+    <%= form_for @comment do |f| %>
       <p>
         <%= f.label :name %>
         <%= f.text_field :name %><br />

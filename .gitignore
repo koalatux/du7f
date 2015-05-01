@@ -1,3 +1,6 @@
 .*.swp
 /log/
 /db/*.sqlite3
+/db/data/*.sqlite3
+/tmp/
+/public/assets/
