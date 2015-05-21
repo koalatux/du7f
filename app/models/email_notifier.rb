@@ -17,76 +17,70 @@
 
 class EmailNotifier < ActionMailer::Base
 
-  def poll_created(poll)
-    subject    "Your new poll \"#{poll.title}\""
-    recipients poll.admin_email_address
-    from       MAIL_FROM
-
-    body       :poll => poll
+  def poll_created(poll, request)
+    @request = request
+    @poll = poll
+    mail(from: from(request), to: poll.admin_email_address, subject: "Your new poll \"#{poll.title}\"")
   end
 
-  def poll_changed(poll)
-    subject    "Changes at your poll \"#{poll.title}\""
-    recipients poll.admin_email_address
-    from       MAIL_FROM
-
-    body       :poll => poll
+  def poll_changed(poll, request)
+    @request = request
+    @poll = poll
+    mail(from: from(request), to: poll.admin_email_address, subject: "Changes at your poll \"#{poll.title}\"")
   end
 
-  def poll_deleted(poll)
-    subject    "Removal of your poll \"#{poll.title}\""
-    recipients poll.admin_email_address
-    from       MAIL_FROM
-
-    body       :poll => poll
+  def poll_deleted(poll, request)
+    @request = request
+    @poll = poll
+    mail(from: from(request), to: poll.admin_email_address, subject: "Removal of your poll \"#{poll.title}\"")
   end
 
-  def participant_created(participant)
-    subject    "Activity in your poll \"#{participant.poll.title}\""
-    recipients participant.poll.admin_email_address
-    from       MAIL_FROM
-
-    body       :poll => participant.poll, :participant => participant
+  def participant_created(participant, request)
+    @request = request
+    @poll = participant.poll
+    @participant = participant
+    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll \"#{participant.poll.title}\"")
   end
 
-  def participant_changed(participant)
-    subject    "Activity in your poll \"#{participant.poll.title}\""
-    recipients participant.poll.admin_email_address
-    from       MAIL_FROM
-
-    body       :poll => participant.poll, :participant => participant
+  def participant_changed(participant, request)
+    @request = request
+    @poll = participant.poll
+    @participant = participant
+    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll \"#{participant.poll.title}\"")
   end
 
-  def participant_deleted(participant)
-    subject    "Activity in your poll \"#{participant.poll.title}\""
-    recipients participant.poll.admin_email_address
-    from       MAIL_FROM
-
-    body       :poll => participant.poll, :participant => participant
+  def participant_deleted(participant, request)
+    @request = request
+    @poll = participant.poll
+    @participant = participant
+    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll \"#{participant.poll.title}\"")
   end
 
-  def comment_created(comment)
-    subject    "Comment in your poll \"#{comment.poll.title}\""
-    recipients comment.poll.admin_email_address
-    from       MAIL_FROM
-
-    body       :poll => comment.poll, :comment => comment
+  def comment_created(comment, request)
+    @request = request
+    @poll = comment.poll
+    @comment = comment
+    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll \"#{comment.poll.title}\"")
   end
 
-  def comment_changed(comment)
-    subject    "Comment in your poll \"#{comment.poll.title}\""
-    recipients comment.poll.admin_email_address
-    from       MAIL_FROM
-
-    body       :poll => comment.poll, :comment => comment
+  def comment_changed(comment, request)
+    @request = request
+    @poll = comment.poll
+    @comment = comment
+    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll \"#{comment.poll.title}\"")
   end
 
-  def comment_deleted(comment)
-    subject    "Comment in your poll \"#{comment.poll.title}\""
-    recipients comment.poll.admin_email_address
-    from       MAIL_FROM
+  def comment_deleted(comment, request)
+    @request = request
+    @poll = comment.poll
+    @comment = comment
+    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll \"#{comment.poll.title}\"")
+  end
 
-    body       :poll => comment.poll, :comment => comment
+  private
+
+  def from(request)
+    "do_not_reply@#{request.host}"
   end
 
 end

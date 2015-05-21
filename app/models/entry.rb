@@ -28,7 +28,7 @@ class Entry < ActiveRecord::Base
   private
 
   def particpant_poll_and_choice_poll_must_match
-    self.errors.add_to_base("participant and choice are in different polls") if
+    self.errors.add(:base, "participant and choice are in different polls") if
       self.participant && self.choice && self.participant.poll_id != self.choice.poll_id
   end
 

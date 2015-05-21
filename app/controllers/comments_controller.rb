@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
     @comment = @poll.comments.new(params[:comment])
 
     if @comment.save
-      EmailNotifier.deliver_comment_created(@comment) if @poll.admin_email_address
+      EmailNotifier.comment_created(@comment, request).deliver if @poll.admin_email_address
       flash[:notice] = 'Comment was successfully created.'
       redirect_to @poll
     else
@@ -44,7 +44,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
-    EmailNotifier.deliver_comment_deleted(@comment) if @poll.admin_email_address
+    EmailNotifier.comment_deleted(@comment, request).deliver if @poll.admin_email_address
     flash[:notice] = "Comment destroyed."
     redirect_to @poll
   end

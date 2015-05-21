@@ -49,7 +49,7 @@ class PollsController < ApplicationController
     @poll.choices.each{ |c| c.poll = @poll unless c.destroyed? }
 
     if @poll.save
-      EmailNotifier.deliver_poll_created(@poll) if @poll.admin_email_address
+      EmailNotifier.poll_created(@poll, request).deliver if @poll.admin_email_address
       flash[:notice] = 'Poll was successfully created.'
       # create.html.erb
     else
@@ -66,7 +66,7 @@ class PollsController < ApplicationController
   def update
     # TODO: destroy_empty_choices not implemented here, first implement ability to add choices and ask for confirmation
     if @poll.update_attributes(params[:poll])
-      EmailNotifier.deliver_poll_changed(@poll) if @poll.admin_email_address
+      EmailNotifier.poll_changed(@poll, request).deliver if @poll.admin_email_address
       flash[:notice] = 'Poll was successfully updated.'
       redirect_to @poll
     else
@@ -80,7 +80,7 @@ class PollsController < ApplicationController
   # DELETE /0123456789abcdef.../admin/fedcba9876543210...
   def destroy
     @poll.destroy
-    EmailNotifier.deliver_poll_deleted(@poll) if @poll.admin_email_address
+    EmailNotifier.poll_deleted(@poll, request).deliver if @poll.admin_email_address
     flash[:notice] = "Poll destroyed."
     redirect_to polls_path
   end
