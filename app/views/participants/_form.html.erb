@@ -60,11 +60,11 @@
 </div>
 
 <% def poll_table(f=nil) %>
-  <% if f
+  <% choice_mappings = []
+     if f
       # prepare radio buttons and print mapping to choice_ids
       # can't do this inline, fields_for has to be the outer loop
       radio_buttons = []
-      choice_mappings = []
       f.fields_for :entries do |ef|
         b = @poll.answer_set.map do |answer_key, _|
           [ answer_key, raw("<td class=\"choice answer-#{answer_key}#{" winner" if @poll.winner_choices.include?(ef.object.choice_id)}\">#{ef.radio_button(:answer, answer_key)}</td>") ]
