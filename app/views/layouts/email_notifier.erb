@@ -4,7 +4,7 @@ Hallo <%= @poll.author %>,
 <% unless @poll.destroyed? %>Your poll is accessible at:
 <%= poll_url(@poll, host: @request.host_with_port) %>
 For administering your poll visit:
-<%= edit_poll_admin_url(:token => @poll.token, :admin_token => @poll.admin_token, host: @request.host_with_port) %>
+<%= edit_poll_admin_url(token: @poll.token, admin_token: @poll.admin_token, host: @request.host_with_port) %>
 
 <% end %>Kind regards,
 your du7f provider

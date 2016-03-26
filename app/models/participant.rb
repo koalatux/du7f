@@ -20,6 +20,6 @@ class Participant < ActiveRecord::Base
   validates_associated :entries
 
   belongs_to :poll
-  has_many :entries, :dependent => :destroy
+  has_many :entries, dependent: :destroy
   accepts_nested_attributes_for :entries
 end

@@ -17,21 +17,21 @@
 class Poll < ActiveRecord::Base
 
   POLL_TYPES = {
-    1 => {
-      :name => "Yes/No",
-      :answers => {
-        1 => { :name => "yes", :color => "#7fff7f" },
-        3 => { :name => "no", :color => "#ff7f7f" }
+      1 => {
+          name: 'Yes/No',
+          answers: {
+              1 => {name: 'yes', color: '#7fff7f'},
+              3 => {name: 'no', color: '#ff7f7f'}
+          }
+      },
+      2 => {
+          name: 'Yes/No/Maybe',
+          answers: {
+              1 => {name: 'yes', color: '#7fff7f'},
+              2 => {name: 'maybe', color: '#ffffff'},
+              3 => {name: 'no', color: '#ff7f7f'}
+          }
       }
-    },
-    2 => {
-      :name => "Yes/No/Maybe",
-      :answers => {
-        1 => { :name => "yes", :color => "#7fff7f" },
-        2 => { :name => "maybe", :color => "#ffffff" },
-        3 => { :name => "no", :color => "#ff7f7f" }
-      }
-    }
   }
 
   before_create :set_tokens!
@@ -41,12 +41,12 @@ class Poll < ActiveRecord::Base
   # validate presence of :token and :admin_token # TODO
   #validates_associated :choices, :participants # TODO
   validate :must_have_at_least_one_choice
-  validate :must_have_nil_or_valid_admin_email_address
+  validate :must_have_nil_or_valid_address
   validate :must_be_valid_poll_type
 
-  has_many :choices, :dependent => :destroy
-  has_many :participants, :dependent => :destroy
-  has_many :comments, :dependent => :destroy
+  has_many :choices, dependent: :destroy
+  has_many :participants, dependent: :destroy
+  has_many :comments, dependent: :destroy
   accepts_nested_attributes_for :choices
 
   def to_param
@@ -97,7 +97,7 @@ class Poll < ActiveRecord::Base
     win = self.choices
     # no winner if there are unanswered choices
     win.each do |c|
-      if c.entries.size != self.participants.size then
+      if c.entries.size != self.participants.size
         @winner_choices = []
         return []
       end
@@ -105,11 +105,11 @@ class Poll < ActiveRecord::Base
     answers=[3] # TODO: integrate this in poll_type model eventually
     answers << 2 if self.poll_type == 2
     answers.each do |i|
-      min = win.map{|c| c.count_answers(i)}.min
-      win = win.select{|c| c.count_answers(i) == min}
+      min = win.map { |c| c.count_answers(i) }.min
+      win = win.select { |c| c.count_answers(i) == min }
     end
     win = [] if win.size == self.choices.size
-    win = win.map{|c| c.id}
+    win = win.map { |c| c.id }
     @winner_choices = win
   end
 
@@ -117,7 +117,7 @@ class Poll < ActiveRecord::Base
 
   def create_token
     # 16 bytes of random data encoded as base64url without padding
-    SecureRandom.base64(16)[0...22].tr("+/", "-_")
+    SecureRandom.base64(16)[0...22].tr('+/', '-_')
   end
 
   def set_tokens!
@@ -126,21 +126,18 @@ class Poll < ActiveRecord::Base
   end
 
   def must_have_at_least_one_choice
-    self.errors.add(:choices, "count must be at least one") if
-      self.choices.find_all{|x| !x.destroyed?}.size == 0
+    self.errors.add(:choices, 'count must be at least one') if self.choices.find_all { |x| !x.destroyed? }.size == 0
   end
 
-  def must_have_nil_or_valid_admin_email_address
+  def must_have_nil_or_valid_address
     self.admin_email_address = nil if self.admin_email_address.blank?
     if self.admin_email_address
-      self.errors.add(:admin_email_address, "must be valid or empty") unless
-        self.admin_email_address.match(/.@./) # TODO: RFC 3696
+      self.errors.add(:admin_email_address, 'must be valid or empty') unless self.admin_email_address.match(/.@./) # TODO: RFC 3696
     end
   end
 
   def must_be_valid_poll_type
-    self.errors.add(:poll_type, :invalid) unless
-      POLL_TYPES[poll_type]
+    self.errors.add(:poll_type, :invalid) unless POLL_TYPES[poll_type]
   end
 
 end

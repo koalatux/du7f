@@ -19,10 +19,10 @@ require 'test_helper'
 
 class ParticipantTest < ActiveSupport::TestCase
 
-  test "valid participant" do
-    participant = Participant.new(:name => "joey")
+  test 'valid participant' do
+    participant = Participant.new(name: 'joey')
     participant.poll = polls(:alices_poll)
-    participant.entries = polls(:alices_poll).choices.map{|c| Entry.new(:answer => 1){|e| e.participant = participant; e.choice = c}}
+    participant.entries = polls(:alices_poll).choices.map { |c| Entry.new(answer: 1) { |e| e.participant = participant; e.choice = c } }
     assert participant.save
   end
 

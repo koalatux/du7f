@@ -16,7 +16,7 @@
 
 
 class CommentsController < ApplicationController
-  before_filter :get_comment, :except => [ :create ]
+  before_filter :get_comment, except: [:create]
   before_filter :verify_comments_allowed
 
   def create
@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
       redirect_to @poll
     else
       get_poll_associates
-      render :template => "participants/index"
+      render template: 'participants/index'
     end
   end
 
@@ -45,7 +45,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     EmailNotifier.comment_deleted(@comment, request).deliver_now if @poll.admin_email_address
-    flash[:notice] = "Comment destroyed."
+    flash[:notice] = 'Comment destroyed.'
     redirect_to @poll
   end
 
@@ -57,7 +57,7 @@ class CommentsController < ApplicationController
 
   def verify_comments_allowed
     unless @poll.comments_allowed
-      flash[:error] = "Comments have been disabled in this poll."
+      flash[:error] = 'Comments have been disabled in this poll.'
       redirect_to @poll
     end
   end

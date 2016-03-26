@@ -26,9 +26,9 @@ class ApplicationController < ActionController::Base
 
   def get_poll_associates
     # OPTIMIZE: do a select for only the needed columns
-    @participants = Participant.includes(entries: :choice).where(poll_id: @poll.id).order("participants.id", "choices.id")
+    @participants = Participant.includes(entries: :choice).where(poll_id: @poll.id).order('participants.id', 'choices.id')
     # TODO: eager loading for counts
-    @comments = Comment.where(:poll_id => @poll.id).order(:created_at)
+    @comments = Comment.where(poll_id: @poll.id).order(:created_at)
   end
 
   def verify_admin_token

@@ -16,8 +16,8 @@
 
 
 class PollsController < ApplicationController
-  skip_before_filter :get_poll, :only => [ :new, :index, :create ]
-  before_filter :verify_admin_token, :except => [ :new, :index, :create ]
+  skip_before_filter :get_poll, only: [:new, :index, :create]
+  before_filter :verify_admin_token, except: [:new, :index, :create]
   # TODO: ensure time stamp update, when only choice gets changed
 
   # GET /new
@@ -27,6 +27,7 @@ class PollsController < ApplicationController
       @poll.choices.new
     end
   end
+
   # new.html.erb
 
   # GET /
@@ -36,24 +37,24 @@ class PollsController < ApplicationController
   def create
     @poll = Poll.new(poll_params)
 
-    # TODO: constant string or i18n for "Add Choice"
-    if params[:commit] == "Add Choice"
+    # TODO: constant string or i18n for 'Add Choice'
+    if params[:commit] == 'Add Choice'
       # not saving, just adding more choices
       @poll.choices.new
-      render :action => "new" # new.html.erb
+      render action: 'new' # new.html.erb
       return
     end
 
     @poll.destroy_empty_choices!
     # setting the associations here is needed, because of the validation in the choices
-    @poll.choices.each{ |c| c.poll = @poll unless c.destroyed? }
+    @poll.choices.each { |c| c.poll = @poll unless c.destroyed? }
 
     if @poll.save
       EmailNotifier.poll_created(@poll, request).deliver_now if @poll.admin_email_address
       flash[:notice] = 'Poll was successfully created.'
       # create.html.erb
     else
-      render :action => "new" # new.html.erb
+      render action: 'new' # new.html.erb
     end
   end
 
@@ -70,7 +71,7 @@ class PollsController < ApplicationController
       flash[:notice] = 'Poll was successfully updated.'
       redirect_to @poll
     else
-      render :action => "edit" # edit.html.erb
+      render action: 'edit' # edit.html.erb
     end
   end
 
@@ -81,16 +82,16 @@ class PollsController < ApplicationController
   def destroy
     @poll.destroy
     EmailNotifier.poll_deleted(@poll, request).deliver_now if @poll.admin_email_address
-    flash[:notice] = "Poll destroyed."
+    flash[:notice] = 'Poll destroyed.'
     redirect_to polls_path
   end
 
   private
 
   def poll_params
-      if params['poll'] and !params['poll'].empty?
-         params.require(:poll).permit(:author, :title, :description, :admin_email_address, :poll_type, :comments_allowed, :close_at, :enable_close_at, choices_attributes: [:id, :title])
-      end
+    if params['poll'] and !params['poll'].empty?
+      params.require(:poll).permit(:author, :title, :description, :admin_email_address, :poll_type, :comments_allowed, :close_at, :enable_close_at, choices_attributes: [:id, :title])
+    end
   end
 
 end

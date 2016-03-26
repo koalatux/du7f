@@ -20,31 +20,31 @@ require 'test_helper'
 class EntryTest < ActiveSupport::TestCase
 
   def setup
-    @poll = Poll.new(:author => "bob", :title => "test", :description => "foo bar baz", :poll_type => 1)
-    @choice = Choice.new(:title => "foo")
+    @poll = Poll.new(author: 'bob', title: 'test', description: 'foo bar baz', poll_type: 1)
+    @choice = Choice.new(title: 'foo')
     @choice.poll = @poll
-    @participant = Participant.new(:name => "joey")
+    @participant = Participant.new(name: 'joey')
     @participant.poll = @poll
-    @entry = Entry.new(:answer => 1)
+    @entry = Entry.new(answer: 1)
     @entry.choice = @choice
     @entry.participant = @participant
   end
 
-  test "valid entry" do
+  test 'valid entry' do
     assert @entry.save
   end
 
-  test "particpant poll and choice poll must match 1" do
+  test 'particpant poll and choice poll must match 1' do
     @entry.choice = choices(:margherita)
     assert !@entry.save
   end
 
-  test "particpant poll and choice poll must match 2" do
+  test 'particpant poll and choice poll must match 2' do
     @entry.participant = participants(:alice)
     assert !@entry.save
   end
 
-  test "invalid entry" do
+  test 'invalid entry' do
     @entry.answer = 2
     assert !@entry.save
   end

@@ -20,10 +20,10 @@ class Choice < ActiveRecord::Base
   validates_associated :entries
 
   belongs_to :poll
-  has_many :entries, :dependent => :destroy
+  has_many :entries, dependent: :destroy
 
   def count_answers(answer)
-    @count_answers or @count_answers = {}
-    @count_answers[answer] or @count_answers[answer] = self.entries.where(answer: answer).count
+    @count_answers or (@count_answers = {})
+    @count_answers[answer] or (@count_answers[answer] = self.entries.where(answer: answer).count)
   end
 end

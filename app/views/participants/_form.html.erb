@@ -56,7 +56,7 @@
 
 <div>
   <b>Description:</b><br />
-  <%= auto_link(simple_format(h @poll.description), :html => { :rel => "nofollow" }) %>
+  <%= auto_link(simple_format(h @poll.description), html: {rel: 'nofollow'}) %>
 </div>
 
 <% def poll_table(f=nil) %>
@@ -67,7 +67,7 @@
       radio_buttons = []
       f.fields_for :entries do |ef|
         b = @poll.answer_set.map do |answer_key, _|
-          [ answer_key, raw("<td class=\"choice answer-#{answer_key}#{" winner" if @poll.winner_choices.include?(ef.object.choice_id)}\">#{ef.radio_button(:answer, answer_key)}</td>") ]
+          [ answer_key, raw("<td class=\"choice answer-#{answer_key}#{' winner' if @poll.winner_choices.include?(ef.object.choice_id)}\">#{ef.radio_button(:answer, answer_key)}</td>") ]
         end
         radio_buttons << Hash[b]
         choice_mappings << ef.hidden_field(:id)
@@ -86,7 +86,7 @@
     <tr>
       <th class="name">Name</th>
       <% @poll.choices.each do |choice| %>
-        <th class="choice<%= " winner" if @poll.winner_choices.include?(choice.id) %>"><%=h choice.title %></th>
+        <th class="choice<%= ' winner' if @poll.winner_choices.include?(choice.id) %>"><%= h choice.title %></th>
       <% end %>
     </tr>
 
@@ -98,12 +98,12 @@
           <td class="name"><%=h participant.name %></td>
           <%# TODO: handle event, when there are gaps %>
           <% participant.entries.each do |entry| %>
-            <td class="choice answer-<%= entry.answer %><%= " winner" if @poll.winner_choices.include?(entry.choice_id) %>"><%=h @poll.answer_set[entry.answer][:name] %></td>
+            <td class="choice answer-<%= entry.answer %><%= ' winner' if @poll.winner_choices.include?(entry.choice_id) %>"><%= h @poll.answer_set[entry.answer][:name] %></td>
           <% end %>
           <% (0...(@poll.choices.size - participant.entries.size)).each do |i| %>
             <td class="choice answer-unknown">?</td>
           <% end %>
-          <% if params[:action] == "index" && @poll.open? %>
+          <% if params[:action] == 'index' && @poll.open? %>
             <td class="action">
               <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
               <%= link_to 'Destroy', destroy_participant_path(@poll, participant) %>
@@ -154,7 +154,7 @@
       <tr>
         <td class="empty"></td>
         <% @poll.choices.each do |choice| %>
-          <td class="total answer-<%= answer_key %><%= " winner" if @poll.winner_choices.include?(choice.id) %>"><%=h choice.count_answers(answer_key) %></td>
+          <td class="total answer-<%= answer_key %><%= ' winner' if @poll.winner_choices.include?(choice.id) %>"><%= h choice.count_answers(answer_key) %></td>
         <% end %>
         <td class="answer">Total <%=h answer[:name]%></td>
       </tr>
@@ -164,7 +164,7 @@
 <% end %>
 
 <% if @participant && @poll.open? %>
-  <%= form_for @participant, :url => form_url do |f| %>
+  <%= form_for @participant, url: form_url do |f| %>
     <% poll_table f %>
   <% end %>
 <% else %>
@@ -184,8 +184,8 @@
       <%= h comment.name %><br />
       <b>Date:</b>
       <%=h comment.created_at.getlocal %><br />
-      <%= auto_link(simple_format(h comment.comment), :html => { :rel => "nofollow" }) %>
-      <% if @poll.comments_allowed && params[:action] == "index" %>
+      <%= auto_link(simple_format(h comment.comment), html: {rel: 'nofollow'}) %>
+      <% if @poll.comments_allowed && params[:action] == 'index' %>
         <%#= link_to 'Edit', edit_comment_path(@poll, comment) %>
         <%= link_to 'Destroy', destroy_comment_path(@poll, comment) %>
       <% end %>

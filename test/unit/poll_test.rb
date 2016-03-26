@@ -20,55 +20,55 @@ require 'test_helper'
 class PollTest < ActiveSupport::TestCase
 
   def setup
-    @poll = Poll.new(:author => "bob", :title => "test", :description => "foo bar baz", :poll_type => 1)
-    @choice = Choice.new(:title => "foo")
+    @poll = Poll.new(author: 'bob', title: 'test', description: 'foo bar baz', poll_type: 1)
+    @choice = Choice.new(title: 'foo')
     @choice.poll = @poll
     @poll.choices << @choice
   end
 
-  test "poll is valid and gets tokens" do
+  test 'poll is valid and gets tokens' do
     assert @poll.save
     assert @poll.token
     assert @poll.admin_token
   end
 
-  test "poll without choices is invalid" do
+  test 'poll without choices is invalid' do
     @poll.choices = []
     assert !@poll.save
   end
 
-  test "valid email" do
-    @poll.admin_email_address = "alice@example.org"
+  test 'valid email' do
+    @poll.admin_email_address = 'alice@example.org'
     assert @poll.save
   end
 
-  test "invalid email" do
-    @poll.admin_email_address = "invalid"
+  test 'invalid email' do
+    @poll.admin_email_address = 'invalid'
     assert !@poll.save
-    @poll.admin_email_address = "invalid@"
+    @poll.admin_email_address = 'invalid@'
     assert !@poll.save
-    @poll.admin_email_address = "@example.com"
+    @poll.admin_email_address = '@example.com'
     assert !@poll.save
   end
 
-  test "invalid poll type" do
+  test 'invalid poll type' do
     @poll.poll_type = 1337
     assert !@poll.save
   end
 
-  test "answer set" do
-    assert_equal({1=>{:color=>"#7fff7f", :name=>"yes"}, 3=>{:color=>"#ff7f7f", :name=>"no"}}, @poll.answer_set)
+  test 'answer set' do
+    assert_equal({1 => {color: '#7fff7f', name: 'yes'}, 3 => {color: '#ff7f7f', name: 'no'}}, @poll.answer_set)
     @poll.poll_type = 2
-    assert_equal({1=>{:color=>"#7fff7f", :name=>"yes"}, 2=>{:color=>"#ffffff", :name=>"maybe"}, 3=>{:color=>"#ff7f7f", :name=>"no"}}, @poll.answer_set)
+    assert_equal({1 => {color: '#7fff7f', name: 'yes'}, 2 => {color: '#ffffff', name: 'maybe'}, 3 => {color: '#ff7f7f', name: 'no'}}, @poll.answer_set)
     @poll.poll_type = 1337
     assert_nil @poll.answer_set
   end
 
-  test "destroy empty choices" do
+  test 'destroy empty choices' do
     choice = Choice.new
     choice.poll = @poll
     @poll.choices << choice
-    choice = Choice.new(:title => "")
+    choice = Choice.new(title: '')
     choice.poll = @poll
     @poll.choices << choice
     assert_equal 3, @poll.choices.size
@@ -78,7 +78,7 @@ class PollTest < ActiveSupport::TestCase
     assert_equal 1, @poll.choices.size
   end
 
-  test "close at" do
+  test 'close at' do
     time = 2.days.ago
     @poll.close_at = time
     assert !@poll.enable_close_at
@@ -95,7 +95,7 @@ class PollTest < ActiveSupport::TestCase
     assert_equal time, @poll.close_at
   end
 
-  test "close at after enabling" do
+  test 'close at after enabling' do
     time = 2.days.ago
     @poll.enable_close_at = '1'
     assert @poll.enable_close_at
@@ -111,7 +111,7 @@ class PollTest < ActiveSupport::TestCase
     assert_equal time, @poll.close_at
   end
 
-  test "close at when closing disabled" do
+  test 'close at when closing disabled' do
     time = Time.now
     assert !@poll.enable_close_at
     close_time = @poll.close_at
@@ -121,7 +121,7 @@ class PollTest < ActiveSupport::TestCase
     assert @poll.close_at
   end
 
-  test "open" do
+  test 'open' do
     assert @poll.open?
     @poll.close_at = 1.minute.ago
     @poll.enable_close_at = '1'

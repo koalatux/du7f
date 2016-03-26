@@ -17,8 +17,8 @@
 
 class Entry < ActiveRecord::Base
   validates_presence_of :participant, :choice, :answer
-  validate :particpant_poll_and_choice_poll_must_match
-  validate :answer_must_be_allowed_by_poll_type
+  validate :polls_must_match
+  validate :answer_must_be_allowed
   # TODO: check uniqueness and completeness
 
   belongs_to :participant
@@ -26,14 +26,12 @@ class Entry < ActiveRecord::Base
 
   private
 
-  def particpant_poll_and_choice_poll_must_match
-    self.errors.add(:base, "participant and choice are in different polls") if
-      self.participant && self.choice && self.participant.poll_id != self.choice.poll_id
+  def polls_must_match
+    self.errors.add(:base, 'participant and choice are in different polls') if self.participant && self.choice && self.participant.poll_id != self.choice.poll_id
   end
 
-  def answer_must_be_allowed_by_poll_type
-    self.errors.add(:answer, :invalid) if
-      self.participant && self.participant.poll && !self.participant.poll.answer_set[self.answer]
+  def answer_must_be_allowed
+    self.errors.add(:answer, :invalid) if self.participant && self.participant.poll && !self.participant.poll.answer_set[self.answer]
   end
 
 end

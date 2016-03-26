@@ -19,18 +19,18 @@ require 'test_helper'
 
 class ChoiceTest < ActiveSupport::TestCase
 
-  test "valid_choice" do
-    poll = Poll.new(:author => "bob", :title => "test", :description => "foo bar baz", :poll_type => 1)
-    choice = Choice.new(:title => "foo")
+  test 'valid_choice' do
+    poll = Poll.new(author: 'bob', title: 'test', description: 'foo bar baz', poll_type: 1)
+    choice = Choice.new(title: 'foo')
     choice.poll = poll
     assert choice.save
   end
 
-  test "count_answers" do
+  test 'count_answers' do
     margherita = choices(:margherita)
-    assert_equal [1,1,0], [1,2,3].map{|x| margherita.count_answers(x)}
+    assert_equal [1, 1, 0], [1, 2, 3].map { |x| margherita.count_answers(x) }
     weizen = choices(:weizen)
-    assert_equal [1,1], [1,3].map{|x| weizen.count_answers(x)}
+    assert_equal [1, 1], [1, 3].map { |x| weizen.count_answers(x) }
   end
 
 end

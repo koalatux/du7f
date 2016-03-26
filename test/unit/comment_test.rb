@@ -19,8 +19,8 @@ require 'test_helper'
 
 class CommentTest < ActiveSupport::TestCase
 
-  test "valid comment" do
-    comment = Comment.new(:name => "joey", :comment => "foo bar baz")
+  test 'valid comment' do
+    comment = Comment.new(name: 'joey', comment: 'foo bar baz')
     comment.poll = polls(:alices_poll)
     assert comment.save
   end

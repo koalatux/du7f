@@ -20,10 +20,10 @@
 <% @title = "#{@poll.title_was}-admin" %>
 <h2>Editing poll</h2>
 
-<%= form_for @poll, :url => poll_admin_path do |f| %>
+<%= form_for @poll, url: poll_admin_path do |f| %>
   <%= f.error_messages %>
 
-  <%= render :partial => "form", :locals => { :f => f } %>
+  <%= render partial: 'form', locals: {f: f} %>
 
   <p>
     <%= submit_tag 'Update' %>

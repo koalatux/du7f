@@ -20,7 +20,7 @@
 <% @title = @poll.title %>
 
 <p>Really destroy this participant?</p>
-<%= button_to "Destroy", participant_path(@poll, @participant), :method => :delete %>
+<%= button_to 'Destroy', participant_path(@poll, @participant), method: :delete %>
 <p>
 <%= link_to 'Cancel', participants_path %>
 </p>
