@@ -16,7 +16,6 @@
 
 
 class Entry < ActiveRecord::Base
-  attr_accessible :answer, :choice_id
   validates_presence_of :participant, :choice, :answer
   validate :particpant_poll_and_choice_poll_must_match
   validate :answer_must_be_allowed_by_poll_type

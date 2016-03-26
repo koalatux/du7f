@@ -70,6 +70,7 @@
           [ answer_key, raw("<td class=\"choice answer-#{answer_key}#{" winner" if @poll.winner_choices.include?(ef.object.choice_id)}\">#{ef.radio_button(:answer, answer_key)}</td>") ]
         end
         radio_buttons << Hash[b]
+        choice_mappings << ef.hidden_field(:id)
         choice_mappings << ef.hidden_field(:choice_id)
       end
     end

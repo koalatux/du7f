@@ -16,7 +16,6 @@
 
 
 class Comment < ActiveRecord::Base
-  attr_accessible :name, :comment
   validates_presence_of :name, :comment
 
   belongs_to :poll

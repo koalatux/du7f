@@ -36,8 +36,6 @@ class Poll < ActiveRecord::Base
 
   before_create :set_tokens!
 
-  attr_accessor :enable_close_at
-  attr_accessible :author, :title, :description, :admin_email_address, :poll_type, :comments_allowed, :choices_attributes, :close_at, :enable_close_at
   attr_readonly :poll_type
   validates_presence_of :author, :title, :description, :poll_type
   # validate presence of :token and :admin_token # TODO
@@ -82,11 +80,11 @@ class Poll < ActiveRecord::Base
   end
 
   def enable_close_at=(value)
-    if !ActiveRecord::ConnectionAdapters::Column::value_to_boolean(value)
+    if ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
+      self[:close_at] ||= @close_at || Time.at(0)
+    else
       @close_at = self[:close_at]
       self[:close_at] = nil
-    else
-      self[:close_at] ||= @close_at || Time.at(0)
     end
   end
 

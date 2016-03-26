@@ -20,10 +20,10 @@ class CommentsController < ApplicationController
   before_filter :verify_comments_allowed
 
   def create
-    @comment = @poll.comments.new(params[:comment])
+    @comment = @poll.comments.new(comment_params)
 
     if @comment.save
-      EmailNotifier.comment_created(@comment, request).deliver if @poll.admin_email_address
+      EmailNotifier.comment_created(@comment, request).deliver_now if @poll.admin_email_address
       flash[:notice] = 'Comment was successfully created.'
       redirect_to @poll
     else
@@ -44,7 +44,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
-    EmailNotifier.comment_deleted(@comment, request).deliver if @poll.admin_email_address
+    EmailNotifier.comment_deleted(@comment, request).deliver_now if @poll.admin_email_address
     flash[:notice] = "Comment destroyed."
     redirect_to @poll
   end
@@ -60,6 +60,10 @@ class CommentsController < ApplicationController
       flash[:error] = "Comments have been disabled in this poll."
       redirect_to @poll
     end
+  end
+
+  def comment_params
+    params.require(:comment).permit(:name, :comment)
   end
 
 end

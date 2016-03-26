@@ -37,13 +37,13 @@ class ParticipantsController < ApplicationController
   # index.html.erb
 
   def create
-    @participant = @poll.participants.new(params[:participant])
+    @participant = @poll.participants.new(participant_params)
 
     # setting the associations here is needed, because of the validation in the entries
     @participant.entries.each{ |e| e.participant = @participant }
 
     if @participant.save
-      EmailNotifier.participant_created(@participant, request).deliver if @poll.admin_email_address
+      EmailNotifier.participant_created(@participant, request).deliver_now if @poll.admin_email_address
       flash[:notice] = 'Participant was successfully created.'
       redirect_to @poll
     else
@@ -62,8 +62,8 @@ class ParticipantsController < ApplicationController
   # edit.html.erb
 
   def update
-    if @participant.update_attributes(params[:participant])
-      EmailNotifier.participant_changed(@participant, request).deliver if @poll.admin_email_address # TODO only send on changes
+    if @participant.update_attributes(participant_params)
+      EmailNotifier.participant_changed(@participant, request).deliver_now if @poll.admin_email_address # TODO only send on changes
       flash[:notice] = 'Participant was successfully updated.'
       redirect_to @poll
     else
@@ -76,7 +76,7 @@ class ParticipantsController < ApplicationController
 
   def destroy
     @participant.destroy
-    EmailNotifier.participant_deleted(@participant, request).deliver if @poll.admin_email_address
+    EmailNotifier.participant_deleted(@participant, request).deliver_now if @poll.admin_email_address
     flash[:notice] = "Participant destroyed."
     redirect_to @poll
   end
@@ -92,6 +92,10 @@ class ParticipantsController < ApplicationController
       flash[:error] = "Poll is closed."
       redirect_to @poll
     end
+  end
+
+  def participant_params
+    params.require(:participant).permit(:name, entries_attributes: [:id, :answer, :choice_id])
   end
 
 end

@@ -16,7 +16,6 @@
 
 
 class Choice < ActiveRecord::Base
-  attr_accessible :title
   validates_presence_of :poll, :title
   validates_associated :entries
 
@@ -25,6 +24,6 @@ class Choice < ActiveRecord::Base
 
   def count_answers(answer)
     @count_answers or @count_answers = {}
-    @count_answers[answer] or @count_answers[answer] = self.entries.count( :conditions => { "entries.answer" => answer } )
+    @count_answers[answer] or @count_answers[answer] = self.entries.where(answer: answer).count
   end
 end

@@ -15,34 +15,27 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
-
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
-
-
   before_filter :get_poll
 
   private
 
   def get_poll
-    @poll = Poll.find_by_token(params[:token], :order => "choices.id", :include => :choices) or raise ActiveRecord::RecordNotFound
+    @poll = Poll.includes(:choices).order('choices.id').where!(token: params[:token]).take
   end
 
   def get_poll_associates
     # OPTIMIZE: do a select for only the needed columns
-    @participants = Participant.find(:all, :conditions => {:poll_id => @poll.id}, :order => "participants.id, choices.id", :include => {:entries => :choice})
+    @participants = Participant.includes(entries: :choice).where(poll_id: @poll.id).order("participants.id", "choices.id")
     # TODO: eager loading for counts
-    @comments = Comment.find(:all, :conditions => {:poll_id => @poll.id}, :order => :created_at)
+    @comments = Comment.where(:poll_id => @poll.id).order(:created_at)
   end
 
   def verify_admin_token
     raise ActiveRecord::RecordNotFound if @poll.admin_token != params[:admin_token]
   end
 
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
 end
