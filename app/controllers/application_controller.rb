@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   private
 
   def get_poll
-    @poll = Poll.includes(:choices).order('choices.id').where!(token: params[:token]).take
+    @poll = Poll.includes(:choices).order('choices.id').find_by!(token: params[:token])
   end
 
   def get_poll_associates
