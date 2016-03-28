@@ -37,7 +37,7 @@ class Poll < ActiveRecord::Base
   before_create :set_tokens!
 
   attr_readonly :poll_type
-  validates_presence_of :author, :title, :description, :poll_type
+  validates_presence_of :poll_type
   # validate presence of :token and :admin_token # TODO
   #validates_associated :choices, :participants # TODO
   validate :must_have_at_least_one_choice
@@ -51,6 +51,14 @@ class Poll < ActiveRecord::Base
 
   def to_param
     self.token
+  end
+
+  def quoted_title
+    if self.title && !self.title.blank?
+      " \"#{self.title}\""
+    else
+      ''
+    end
   end
 
   def answer_set

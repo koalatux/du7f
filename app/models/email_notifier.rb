@@ -20,61 +20,61 @@ class EmailNotifier < ActionMailer::Base
   def poll_created(poll, request)
     @request = request
     @poll = poll
-    mail(from: from(request), to: poll.admin_email_address, subject: "Your new poll \"#{poll.title}\"")
+    mail(from: from(request), to: poll.admin_email_address, subject: "Your new poll#{poll.quoted_title}")
   end
 
   def poll_changed(poll, request)
     @request = request
     @poll = poll
-    mail(from: from(request), to: poll.admin_email_address, subject: "Changes at your poll \"#{poll.title}\"")
+    mail(from: from(request), to: poll.admin_email_address, subject: "Changes at your poll#{poll.quoted_title}")
   end
 
   def poll_deleted(poll, request)
     @request = request
     @poll = poll
-    mail(from: from(request), to: poll.admin_email_address, subject: "Removal of your poll \"#{poll.title}\"")
+    mail(from: from(request), to: poll.admin_email_address, subject: "Removal of your poll#{poll.quoted_title}")
   end
 
   def participant_created(participant, request)
     @request = request
     @poll = participant.poll
     @participant = participant
-    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll \"#{participant.poll.title}\"")
+    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll#{participant.poll.quoted_title}")
   end
 
   def participant_changed(participant, request)
     @request = request
     @poll = participant.poll
     @participant = participant
-    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll \"#{participant.poll.title}\"")
+    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll#{participant.poll.quoted_title}")
   end
 
   def participant_deleted(participant, request)
     @request = request
     @poll = participant.poll
     @participant = participant
-    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll \"#{participant.poll.title}\"")
+    mail(from: from(request), to: participant.poll.admin_email_address, subject: "Activity in your poll#{participant.poll.quoted_title}")
   end
 
   def comment_created(comment, request)
     @request = request
     @poll = comment.poll
     @comment = comment
-    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll \"#{comment.poll.title}\"")
+    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll#{comment.poll.quoted_title}")
   end
 
   def comment_changed(comment, request)
     @request = request
     @poll = comment.poll
     @comment = comment
-    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll \"#{comment.poll.title}\"")
+    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll#{comment.poll.quoted_title}")
   end
 
   def comment_deleted(comment, request)
     @request = request
     @poll = comment.poll
     @comment = comment
-    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll \"#{comment.poll.title}\"")
+    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll#{comment.poll.quoted_title}")
   end
 
   private

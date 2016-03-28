@@ -78,7 +78,7 @@ class PollsControllerTest < ActionController::TestCase
   end
 
   test 'update poll should fail' do
-    put :update, token: polls(:alices_poll).token, admin_token: polls(:alices_poll).admin_token, poll: {title: ''}
+    put :update, token: polls(:alices_poll).token, admin_token: polls(:alices_poll).admin_token, poll: {poll_type: ''}
     assert_response :success
     assert_template :edit
     assert assigns(:poll)

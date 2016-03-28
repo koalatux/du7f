@@ -17,7 +17,11 @@
 
 
 %>
-<% @title = "#{@poll.title}-admin" %>
+<% @title = if @poll.title && !@poll.title.blank?
+              "#{@poll.title}-admin"
+            else
+              'admin'
+            end %>
 <h2>Poll Created</h2>
 
 <p>

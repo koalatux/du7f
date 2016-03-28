@@ -32,15 +32,19 @@
 <%= error_messages_for 'participant' %>
 <%= error_messages_for 'comment' %>
 
-<p>
-  <b>Author:</b>
-  <%=h @poll.author %>
-</p>
+<% if @poll.author && !@poll.author.blank? %>
+  <p>
+    <b>Author:</b>
+    <%=h @poll.author %>
+  </p>
+<% end %>
 
-<p>
-  <b>Title:</b>
-  <%=h @poll.title %>
-</p>
+<% if @poll.title && !@poll.title.blank? %>
+  <p>
+    <b>Title:</b>
+    <%=h @poll.title %>
+  </p>
+<% end %>
 
 <p>
   <b>Created at:</b>
@@ -54,10 +58,12 @@
   </p>
 <% end %>
 
-<div>
-  <b>Description:</b><br />
-  <%= auto_link(simple_format(h @poll.description), html: {rel: 'nofollow'}) %>
-</div>
+<% if @poll.description && !@poll.description.blank? %>
+  <div>
+    <b>Description:</b><br />
+    <%= auto_link(simple_format(h @poll.description), html: {rel: 'nofollow'}) %>
+  </div>
+<% end %>
 
 <% def poll_table(f=nil) %>
   <% choice_mappings = []

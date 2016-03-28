@@ -17,7 +17,11 @@
 
 
 %>
-<% @title = "#{@poll.title_was}-admin" %>
+<% @title = if @poll.title_was && !@poll.title_was.blank?
+              "#{@poll.title_was}-admin"
+            else
+              'admin'
+            end %>
 <h2>Editing poll</h2>
 
 <%= form_for @poll, url: poll_admin_path do |f| %>
