@@ -2,6 +2,10 @@
 
 du7f is a simple web-based polling tool using the Ruby on Rails framework.
 
+## See it in Action
+
+Am instance is running over there [du7f.koalatux.ch](http://du7f.koalatux.ch/).
+
 ## Start Development ##
 
 For development you need a recent ruby version, I recommend [rbenv](https://github.com/rbenv/rbenv) for managing ruby
