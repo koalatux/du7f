@@ -31,7 +31,7 @@ class Entry < ActiveRecord::Base
   end
 
   def answer_must_be_allowed
-    self.errors.add(:answer, :invalid) if self.participant && self.participant.poll && !self.participant.poll.answer_set[self.answer]
+    self.errors.add(:answer, :invalid) if self.participant&.poll && !self.participant.poll.answer_set[self.answer]
   end
 
 end
