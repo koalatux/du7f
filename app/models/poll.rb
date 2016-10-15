@@ -53,7 +53,7 @@ class Poll < ActiveRecord::Base
     self.token
   end
 
-  def quoted_title
+  def title_in_quotes
     if self.title && !self.title.blank?
       " \"#{self.title}\""
     else

@@ -130,4 +130,11 @@ class PollTest < ActiveSupport::TestCase
     assert @poll.open?
   end
 
+  test 'title_in_quotes' do
+    assert_equal ' "test"', @poll.title_in_quotes
+
+    @poll.title = ''
+    assert_empty @poll.title_in_quotes
+  end
+
 end
