@@ -144,6 +144,11 @@ table#poll tr.empty
   height: 0.4em;
 }
 
+table#poll td>label
+{
+  display: block;
+}
+
 div.comment
 {
   border-bottom: 1px solid #cccccc;

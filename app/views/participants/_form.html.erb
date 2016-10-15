@@ -73,7 +73,7 @@
       radio_buttons = []
       f.fields_for :entries do |ef|
         b = @poll.answer_set.map do |answer_key, _|
-          [ answer_key, raw("<td class=\"choice answer-#{answer_key}#{' winner' if @poll.winner_choices.include?(ef.object.choice_id)}\">#{ef.radio_button(:answer, answer_key)}</td>") ]
+          [ answer_key, raw("<td class=\"choice answer-#{answer_key}#{' winner' if @poll.winner_choices.include?(ef.object.choice_id)}\"><label>#{ef.radio_button(:answer, answer_key)}</label></td>") ]
         end
         radio_buttons << Hash[b]
         choice_mappings << ef.hidden_field(:id)
