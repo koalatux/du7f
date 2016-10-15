@@ -21,15 +21,24 @@ class PollTest < ActiveSupport::TestCase
 
   def setup
     @poll = Poll.new(author: 'bob', title: 'test', description: 'foo bar baz', poll_type: 1)
-    @choice = Choice.new(title: 'foo')
-    @choice.poll = @poll
-    @poll.choices << @choice
+    @choice = add_choice 'foo'
+  end
+
+  def add_choice(title)
+    choice = Choice.new(title: title)
+    choice.poll = @poll
+    @poll.choices << choice
+    choice
   end
 
   test 'poll is valid and gets tokens' do
     assert @poll.save
+
     assert @poll.token
+    assert_equal @poll.token, @poll.to_param
+
     assert @poll.admin_token
+    assert_not_equal @poll.token, @poll.admin_token
   end
 
   test 'poll without choices is invalid' do
@@ -65,12 +74,8 @@ class PollTest < ActiveSupport::TestCase
   end
 
   test 'destroy empty choices' do
-    choice = Choice.new
-    choice.poll = @poll
-    @poll.choices << choice
-    choice = Choice.new(title: '')
-    choice.poll = @poll
-    @poll.choices << choice
+    add_choice nil
+    add_choice ''
     assert_equal 3, @poll.choices.size
     @poll.destroy_empty_choices!
     @poll.save
@@ -134,7 +139,41 @@ class PollTest < ActiveSupport::TestCase
     assert_equal ' "test"', @poll.title_in_quotes
 
     @poll.title = ''
-    assert_empty @poll.title_in_quotes
+    assert_equal '', @poll.title_in_quotes
   end
 
+  test 'winner_choices' do
+    @choice.stubs(:count_answers).with(3).returns(2)
+    my_choice = add_choice 'bar'
+    my_choice.stubs(:id).returns(:my_choice)
+    my_choice.stubs(:count_answers).with(3).returns(1)
+    assert_equal [:my_choice], @poll.winner_choices
+  end
+
+  test 'winner_choices_with_poll_type_2' do
+    @poll.poll_type = 2
+    @choice.stubs(:count_answers).with(3).returns(2)
+    @choice.stubs(:count_answers).with(2).returns(1)
+    my_choice = add_choice 'bar'
+    my_choice.stubs(:id).returns(:my_choice)
+    my_choice.stubs(:count_answers).with(3).returns(2)
+    my_choice.stubs(:count_answers).with(2).returns(0)
+    assert_equal [:my_choice], @poll.winner_choices
+  end
+
+  test 'winner_choices_with_one_choice' do
+    assert_equal [], @poll.winner_choices
+  end
+
+  test 'winner_choices_with_unanswered_choices' do
+    @choice.stubs(:participants).returns(0...5)
+    @choice.stubs(:entries).returns(0...5)
+    @choice.stubs(:count_answers).with(3).returns(2)
+    my_choice = add_choice 'bar'
+    my_choice.stubs(:id).returns(:my_choice)
+    my_choice.stubs(:participants).returns(0...5)
+    my_choice.stubs(:entries).returns(0...3)
+    my_choice.stubs(:count_answers).with(3).returns(1)
+    assert_equal [], @poll.winner_choices
+  end
 end

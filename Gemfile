@@ -40,6 +40,8 @@ group :development, :test do
   gem 'byebug'
 
   gem 'simplecov'
+
+  gem 'mocha'
 end
 
 group :development do
