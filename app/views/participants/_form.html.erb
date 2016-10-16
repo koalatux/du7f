@@ -115,6 +115,8 @@
               <%= link_to 'Edit', edit_participant_path(@poll, participant) %>
               <%= link_to 'Destroy', destroy_participant_path(@poll, participant) %>
             </td>
+          <% else %>
+            <td class="empty"></td>
           <% end %>
         </tr>
 
