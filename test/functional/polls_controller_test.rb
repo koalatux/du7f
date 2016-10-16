@@ -100,29 +100,17 @@ class PollsControllerTest < ActionController::TestCase
   end
 
   test 'admin token should be required' do
-    begin
+    assert_raises ActiveRecord::RecordNotFound do
       get :edit, token: polls(:alices_poll).token, admin_token: 'guessed token'
-      assert false
-    rescue ActiveRecord::RecordNotFound
-# ignored
     end
-    begin
+    assert_raises ActiveRecord::RecordNotFound do
       put :update, token: polls(:alices_poll).token, admin_token: 'guessed token', poll: {title: 'pi*z*z*a'}
-      assert false
-    rescue ActiveRecord::RecordNotFound
-# ignored
     end
-    begin
+    assert_raises ActiveRecord::RecordNotFound do
       get :destroy_confirm, token: polls(:alices_poll).token, admin_token: 'guessed token'
-      assert false
-    rescue ActiveRecord::RecordNotFound
-# ignored
     end
-    begin
+    assert_raises ActiveRecord::RecordNotFound do
       delete :destroy, token: polls(:alices_poll).token, admin_token: 'guessed token'
-      assert false
-    rescue ActiveRecord::RecordNotFound
-# ignored
     end
   end
 end
