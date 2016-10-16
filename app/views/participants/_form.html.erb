@@ -94,6 +94,7 @@
       <% @poll.choices.each do |choice| %>
         <th class="choice<%= ' winner' if @poll.winner_choices.include?(choice.id) %>"><%= h choice.title %></th>
       <% end %>
+      <th></th>
     </tr>
 
     <% @participants.each_with_index do |participant, p_i| %>
@@ -121,7 +122,7 @@
 
         <%# empty row before edit %>
         <% if p_i != 0 %>
-          <tr class="empty"><td></td><td colspan="<%= @poll.choices.size %>"></td><td></td></tr>
+          <tr class="empty"><% (1..(@poll.choices.size + 2)).each do %><td></td><% end %></tr>
         <% end %>
 
         <%# edit participant %>
@@ -147,13 +148,14 @@
 
         <%# empty row after edit %>
         <% if p_i != @participants.size - 1 %>
-          <tr class="empty"><td></td><td colspan="<%= @poll.choices.size %>"></td><td></td></tr>
+          <tr class="empty"><% (1..(@poll.choices.size + 2)).each do %><td></td><% end %></tr>
         <% end %>
 
       <% end %>
     <% end %>
 
-    <tr class="empty"><td></td><td colspan="<%= @poll.choices.size %>"></td><td></td></tr>
+    <%# empty row before results %>
+    <tr class="empty"><% (1..(@poll.choices.size + 2)).each do %><td></td><% end %></tr>
 
     <%# show results %>
     <% @poll.answer_set.each do |answer_key, answer| %>
