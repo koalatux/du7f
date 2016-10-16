@@ -203,23 +203,21 @@
   <% end %>
   <% if @comment %>
     <%= form_for @comment do |f| %>
-      <p>
-        <table>
-          <tr>
-            <td><%= f.label :name %></td>
-            <td><%= f.text_field :name %></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><%= f.text_area :comment %></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><%= submit_tag 'Add Comment' %>
-              <%= link_to 'Cancel', participants_path %></td>
-          </tr>
-        </table>
-      </p>
+      <table>
+        <tr>
+          <td><%= f.label :name %></td>
+          <td><%= f.text_field :name %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><%= f.text_area :comment %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><%= submit_tag 'Add Comment' %>
+            <%= link_to 'Cancel', participants_path %></td>
+        </tr>
+      </table>
     <% end %>
   <% end %>
 <% end %>
