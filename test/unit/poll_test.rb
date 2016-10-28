@@ -176,4 +176,9 @@ class PollTest < ActiveSupport::TestCase
     my_choice.stubs(:count_answers).with(3).returns(1)
     assert_equal [], @poll.winner_choices
   end
+
+  test 'honeypot_touched' do
+    @poll.honeypot = 'omnomnomnomnom'
+    assert !@poll.save
+  end
 end

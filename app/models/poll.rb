@@ -43,6 +43,7 @@ class Poll < ActiveRecord::Base
   validate :must_have_at_least_one_choice
   validate :must_have_nil_or_valid_address
   validate :must_be_valid_poll_type
+  validate :honeypot_must_be_untouched
 
   has_many :choices, dependent: :destroy
   has_many :participants, dependent: :destroy
@@ -126,6 +127,14 @@ class Poll < ActiveRecord::Base
     @winner_choices = win
   end
 
+  def honeypot
+    @honeypot
+  end
+
+  def honeypot=(value)
+    @honeypot = value
+  end
+
   private
 
   def create_token
@@ -151,6 +160,10 @@ class Poll < ActiveRecord::Base
 
   def must_be_valid_poll_type
     self.errors.add(:poll_type, :invalid) unless POLL_TYPES[poll_type]
+  end
+
+  def honeypot_must_be_untouched
+    self.errors.add(:honeypot, 'touched') unless @honeypot.blank?
   end
 
 end
