@@ -60,7 +60,7 @@ td > label > .field_with_errors {
   list-style: square;
 }
 
-p.honeypot {
+.honeypot {
     display: none;
 }
 

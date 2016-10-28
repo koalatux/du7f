@@ -19,10 +19,18 @@ require 'test_helper'
 
 class CommentTest < ActiveSupport::TestCase
 
+  def setup
+    @comment = Comment.new(name: 'joey', comment: 'foo bar baz')
+    @comment.poll = polls(:alices_poll)
+  end
+
   test 'valid comment' do
-    comment = Comment.new(name: 'joey', comment: 'foo bar baz')
-    comment.poll = polls(:alices_poll)
-    assert comment.save
+    assert @comment.save
+  end
+
+  test 'honeypot_touched' do
+    @comment.honeypot = 'omnomnomnomnom'
+    assert !@comment.save
   end
 
 end

@@ -181,4 +181,5 @@ class PollTest < ActiveSupport::TestCase
     @poll.honeypot = 'omnomnomnomnom'
     assert !@poll.save
   end
+
 end

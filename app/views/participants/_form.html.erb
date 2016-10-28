@@ -208,6 +208,10 @@
           <td><%= f.label :name %></td>
           <td><%= f.text_field :name %></td>
         </tr>
+        <tr class="honeypot">
+          <td><%= f.label :honeypot, 'Please leave this field empty' %></td>
+          <td><%= f.text_field :honeypot %></td>
+        </tr>
         <tr>
           <td></td>
           <td><%= f.text_area :comment %></td>

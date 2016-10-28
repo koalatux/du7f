@@ -17,6 +17,21 @@
 
 class Comment < ActiveRecord::Base
   validates_presence_of :name, :comment
+  validate :honeypot_must_be_untouched
 
   belongs_to :poll
+
+  def honeypot
+    @honeypot
+  end
+
+  def honeypot=(value)
+    @honeypot = value
+  end
+
+  private
+
+  def honeypot_must_be_untouched
+    self.errors.add(:honeypot, 'touched') unless @honeypot.blank?
+  end
 end
