@@ -127,11 +127,11 @@ class Poll < ActiveRecord::Base
     @winner_choices = win
   end
 
-  def honeypot
+  def ubarlcbg
     @honeypot
   end
 
-  def honeypot=(value)
+  def ubarlcbg=(value)
     @honeypot = value
   end
 
@@ -163,7 +163,7 @@ class Poll < ActiveRecord::Base
   end
 
   def honeypot_must_be_untouched
-    self.errors.add(:honeypot, 'touched') unless @honeypot.blank?
+    self.errors.add(:base, 'nope!') unless ubarlcbg.blank?
   end
 
 end

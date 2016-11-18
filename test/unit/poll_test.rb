@@ -178,7 +178,7 @@ class PollTest < ActiveSupport::TestCase
   end
 
   test 'honeypot_touched' do
-    @poll.honeypot = 'omnomnomnomnom'
+    @poll.ubarlcbg = 'omnomnomnomnom'
     assert !@poll.save
   end
 

@@ -21,17 +21,17 @@ class Comment < ActiveRecord::Base
 
   belongs_to :poll
 
-  def honeypot
+  def ubarlcbg
     @honeypot
   end
 
-  def honeypot=(value)
+  def ubarlcbg=(value)
     @honeypot = value
   end
 
   private
 
   def honeypot_must_be_untouched
-    self.errors.add(:honeypot, 'touched') unless @honeypot.blank?
+    self.errors.add(:base, 'nope!') unless ubarlcbg.blank?
   end
 end

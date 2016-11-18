@@ -90,7 +90,7 @@ class PollsController < ApplicationController
 
   def poll_params
     if params['poll'] && !params['poll'].empty?
-      params.require(:poll).permit(:author, :title, :description, :admin_email_address, :honeypot, :poll_type, :comments_allowed, :close_at, :enable_close_at, choices_attributes: [:id, :title])
+      params.require(:poll).permit(:author, :title, :description, :admin_email_address, :ubarlcbg, :poll_type, :comments_allowed, :close_at, :enable_close_at, choices_attributes: [:id, :title])
     end
   end
 

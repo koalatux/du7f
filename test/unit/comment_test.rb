@@ -29,7 +29,7 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   test 'honeypot_touched' do
-    @comment.honeypot = 'omnomnomnomnom'
+    @comment.ubarlcbg = 'omnomnomnomnom'
     assert !@comment.save
   end
 
