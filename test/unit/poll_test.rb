@@ -20,7 +20,7 @@ require 'test_helper'
 class PollTest < ActiveSupport::TestCase
 
   def setup
-    @poll = Poll.new(author: 'bob', title: 'test', description: 'foo bar baz', poll_type: 1)
+    @poll = Poll.new(author: 'bob', title: 'test', description: 'foo bar baz', calculation: '23', poll_type: 1)
     @choice = add_choice 'foo'
   end
 
@@ -179,6 +179,16 @@ class PollTest < ActiveSupport::TestCase
 
   test 'honeypot_touched' do
     @poll.ubarlcbg = 'omnomnomnomnom'
+    assert !@poll.save
+  end
+
+  test 'alternative_calculation' do
+    @poll.calculation = '0x17'
+    assert @poll.save
+  end
+
+  test 'calculation_wrong' do
+    @poll.calculation = '42'
     assert !@poll.save
   end
 

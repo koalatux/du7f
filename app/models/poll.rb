@@ -44,6 +44,7 @@ class Poll < ActiveRecord::Base
   validate :must_have_nil_or_valid_address
   validate :must_be_valid_poll_type
   validate :honeypot_must_be_untouched
+  validate :calculation_must_be_correct
 
   has_many :choices, dependent: :destroy
   has_many :participants, dependent: :destroy
@@ -135,6 +136,14 @@ class Poll < ActiveRecord::Base
     @honeypot = value
   end
 
+  def calculation
+    @calculation
+  end
+
+  def calculation=(value)
+    @calculation = value
+  end
+
   private
 
   def create_token
@@ -164,6 +173,10 @@ class Poll < ActiveRecord::Base
 
   def honeypot_must_be_untouched
     self.errors.add(:base, 'nope!') unless ubarlcbg.blank?
+  end
+
+  def calculation_must_be_correct
+    self.errors.add(:base, 'nope!') unless %w(23 0x17).include? calculation
   end
 
 end

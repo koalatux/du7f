@@ -14,3 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(function() {
+    $('#poll_calculation, #comment_calculation').val('0x17').closest('.calculation').css('display', 'none');
+});

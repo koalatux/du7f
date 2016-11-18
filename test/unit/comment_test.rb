@@ -20,7 +20,7 @@ require 'test_helper'
 class CommentTest < ActiveSupport::TestCase
 
   def setup
-    @comment = Comment.new(name: 'joey', comment: 'foo bar baz')
+    @comment = Comment.new(name: 'joey', comment: 'foo bar baz', calculation: '23')
     @comment.poll = polls(:alices_poll)
   end
 
@@ -30,6 +30,16 @@ class CommentTest < ActiveSupport::TestCase
 
   test 'honeypot_touched' do
     @comment.ubarlcbg = 'omnomnomnomnom'
+    assert !@comment.save
+  end
+
+  test 'alternative_calculation' do
+    @comment.calculation = '0x17'
+    assert @comment.save
+  end
+
+  test 'calculation_wrong' do
+    @comment.calculation = '42'
     assert !@comment.save
   end
 

@@ -16,8 +16,10 @@
 
 
 class Comment < ActiveRecord::Base
+
   validates_presence_of :name, :comment
   validate :honeypot_must_be_untouched
+  validate :calculation_must_be_correct
 
   belongs_to :poll
 
@@ -29,9 +31,22 @@ class Comment < ActiveRecord::Base
     @honeypot = value
   end
 
+  def calculation
+    @calculation
+  end
+
+  def calculation=(value)
+    @calculation = value
+  end
+
   private
 
   def honeypot_must_be_untouched
     self.errors.add(:base, 'nope!') unless ubarlcbg.blank?
   end
+
+  def calculation_must_be_correct
+    self.errors.add(:base, 'nope!') unless %w(23 0x17).include? calculation
+  end
+
 end

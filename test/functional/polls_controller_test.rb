@@ -34,6 +34,7 @@ class PollsControllerTest < ActionController::TestCase
           admin_email_address: 'test@example.org',
           title: 'title',
           description: 'description',
+          calculation: '23',
           poll_type: '2',
           comments_allowed: '1',
           enable_close_at: '1',
@@ -70,7 +71,7 @@ class PollsControllerTest < ActionController::TestCase
   end
 
   test 'should update poll' do
-    put :update, token: polls(:alices_poll).token, admin_token: polls(:alices_poll).admin_token, poll: {title: 'pi*z*z*a'}
+    put :update, token: polls(:alices_poll).token, admin_token: polls(:alices_poll).admin_token, poll: {title: 'pi*z*z*a', calculation: '23'}
     assert_equal 'Poll was successfully updated.', flash[:notice]
     assert assigns(:poll)
     assert_redirected_to poll_path(assigns(:poll))

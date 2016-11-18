@@ -37,6 +37,10 @@
   <%= f.label :ubarlcbg, 'Do not write anything' %><br />
   <%= f.text_field :ubarlcbg %>
 </p>
+<p class="calculation">
+  <%= f.label :calculation, 'Seventeen plus six equals' %><br />
+  <%= f.text_field :calculation %>
+</p>
 <% if @poll.new_record? %>
   <%= f.label :poll_type %><br />
   <%= f.select :poll_type, Poll::POLL_TYPES.map{ |k, v| [ v[:name], k ] } %>
