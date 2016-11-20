@@ -56,12 +56,14 @@
 </p>
 
 <h2>Choices</h2>
-<%= f.fields_for :choices do |cf| %>
-  <p>
-    <%= cf.label :title %>
-    <%= cf.text_field :title %>
-  </p>
-<% end %>
+<div id="choices">
+  <%= f.fields_for :choices do |cf| %>
+    <p>
+      <%= cf.label :title %>
+      <%= cf.text_field :title %>
+    </p>
+  <% end %>
+</div>
 <% if @poll.new_record? %>
-  <%= submit_tag 'Add Choice' %>
+  <%= submit_tag 'Add Choice', id: :add_choice %>
 <% end %>
