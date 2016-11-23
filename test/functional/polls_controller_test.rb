@@ -34,7 +34,7 @@ class PollsControllerTest < ActionController::TestCase
           admin_email_address: 'test@example.org',
           title: 'title',
           description: 'description',
-          calculation: '23',
+          calculation: '0x17',
           poll_type: '2',
           comments_allowed: '1',
           enable_close_at: '1',
