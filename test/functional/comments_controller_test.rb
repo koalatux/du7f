@@ -3,17 +3,17 @@ require 'test_helper'
 class CommentsControllerTest < ActionController::TestCase
   test 'should create comment' do
     assert_difference('Comment.count') do
-      post :create, token: polls(:alices_poll).token, comment: { name: 'name', comment: 'miau', calculation: '0x17' }
+      post :create, token: polls(:alices_poll).token, comment: {name: 'name', comment: 'miau', calculation: '0x17'}
     end
     assert_equal 'Comment was successfully created.', flash[:notice]
     assert_equal polls(:alices_poll), assigns(:poll)
     assert_redirected_to poll_path(polls(:alices_poll))
-    assert_equal 'miau', polls(:alices_poll).comments[2].comment
+    assert_equal 'miau', Poll.find(polls(:alices_poll).id).comments[2].comment
   end
 
   test 'should not create incomplete comment' do
     assert_no_difference('Comment.count') do
-      post :create, token: polls(:alices_poll).token, comment: { name: 'name', comment: '', calculation: '0x17' }
+      post :create, token: polls(:alices_poll).token, comment: {name: 'name', comment: '', calculation: '0x17'}
     end
     assert_template 'participants/index'
     assert_equal polls(:alices_poll), assigns(:poll)
@@ -21,7 +21,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test 'should not allow comment if not enabled' do
     assert_no_difference('Comment.count') do
-      post :create, token: polls(:bobs_poll).token, comment: { name: 'name', comment: 'miau', calculation: '0x17' }
+      post :create, token: polls(:bobs_poll).token, comment: {name: 'name', comment: 'miau', calculation: '0x17'}
     end
     assert_equal 'Comments have been disabled in this poll.', flash[:error]
     assert_redirected_to poll_path(polls(:bobs_poll))
@@ -44,7 +44,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test 'token should be required' do
     assert_raises ActiveRecord::RecordNotFound do
-      post :create, token: 'guessed token', comment: { name: 'name', comment: 'miau', calculation: '0x17' }
+      post :create, token: 'guessed token', comment: {name: 'name', comment: 'miau', calculation: '0x17'}
     end
     assert_raises ActiveRecord::RecordNotFound do
       get :destroy_confirm, token: 'guessed token', id: comments(:one).id
