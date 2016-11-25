@@ -2,9 +2,9 @@ Hallo <%= @poll.author %>,
 
 <%= yield %>
 <% unless @poll.destroyed? %>Your poll is accessible at:
-<%= poll_url(@poll, host: @request.host_with_port) %>
+<%= poll_url(@poll, host: @request.host_with_port, protocol: @request.protocol) %>
 For administering your poll visit:
-<%= edit_poll_admin_url(token: @poll.token, admin_token: @poll.admin_token, host: @request.host_with_port) %>
+<%= edit_poll_admin_url(token: @poll.token, admin_token: @poll.admin_token, host: @request.host_with_port, protocol: @request.protocol) %>
 
 <% end %>Kind regards,
 your du7f provider
