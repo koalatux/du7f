@@ -63,13 +63,6 @@ class EmailNotifier < ActionMailer::Base
     mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll#{comment.poll.title_in_quotes}")
   end
 
-  def comment_changed(comment, request)
-    @request = request
-    @poll = comment.poll
-    @comment = comment
-    mail(from: from(request), to: comment.poll.admin_email_address, subject: "Comment in your poll#{comment.poll.title_in_quotes}")
-  end
-
   def comment_deleted(comment, request)
     @request = request
     @poll = comment.poll
