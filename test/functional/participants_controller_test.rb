@@ -56,6 +56,14 @@ class ParticipantsControllerTest < ActionController::TestCase
     assert_equal 4, assigns(:participant).entries.size
   end
 
+  test 'should get edit participant with unanswered choices' do
+    c = polls(:alices_poll).choices.new
+    c.title = 'Vegana'
+    c.save!
+    get :edit, token: polls(:alices_poll).token, id: participants(:alice).id
+    assert_equal 5, assigns(:participant).entries.size
+  end
+
   test 'should update participant' do
     put :update, token: polls(:alices_poll).token, id: participants(:alice).id, participant: {name: 'peter', entries_attributes: [
         {id: entries(:a1).id, choice_id: choices(:margherita).id, answer: '1'},
@@ -79,6 +87,21 @@ class ParticipantsControllerTest < ActionController::TestCase
     assert assigns(:participant)
   end
 
+  test 'update participant should fail when poll is closed' do
+    p = polls(:alices_poll)
+    p.enable_close_at = true
+    p.close_at = 1.minute.ago
+    p.save(validate: false) # no validation because of spam protection
+    put :update, token: polls(:alices_poll).token, id: participants(:alice).id, participant: {name: 'peter', entries_attributes: [
+        {id: entries(:a1).id, choice_id: choices(:margherita).id, answer: '1'},
+        {id: entries(:a2).id, choice_id: choices(:funghi).id, answer: '3'},
+        {id: entries(:a3).id, choice_id: choices(:quattro_formaggi).id, answer: '1'},
+        {id: entries(:a4).id, choice_id: choices(:gorgonzola).id, answer: '1'}
+    ]}
+    assert_redirected_to poll_path(polls(:alices_poll))
+    assert_equal 'Poll is closed.', flash[:error]
+  end
+
   test 'should get destroy confirm participant' do
     get :destroy_confirm, token: polls(:alices_poll).token, id: participants(:alice).id
     assert_response :success
@@ -91,7 +114,7 @@ class ParticipantsControllerTest < ActionController::TestCase
       delete :destroy, token: polls(:alices_poll).token, id: participants(:alice).id
     end
     assert_equal 'Participant destroyed.', flash[:notice]
-    assert_redirected_to poll_path(assigns(:poll))
+    assert_redirected_to poll_path(polls(:alices_poll))
   end
 
   test 'token should be required' do
