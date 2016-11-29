@@ -38,8 +38,7 @@ class Poll < ActiveRecord::Base
 
   attr_readonly :poll_type
   validates_presence_of :poll_type
-  # validate presence of :token and :admin_token # TODO
-  #validates_associated :choices, :participants # TODO
+  validates_associated :choices, :participants
   validate :must_have_at_least_one_choice
   validate :must_have_nil_or_valid_address
   validate :must_be_valid_poll_type
@@ -69,7 +68,10 @@ class Poll < ActiveRecord::Base
 
   def destroy_empty_choices!
     self.choices.each do |choice|
-      choice.destroy if choice.title.blank?
+      if choice.title.blank?
+        self.choices.delete(choice)
+        choice.destroy
+      end
     end
   end
 
