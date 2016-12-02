@@ -38,7 +38,7 @@ class Poll < ActiveRecord::Base
 
   attr_readonly :poll_type
   validates_presence_of :poll_type
-  validates_associated :choices, :participants
+  validates_associated :choices
   validate :must_have_at_least_one_choice
   validate :must_have_nil_or_valid_address
   validate :must_be_valid_poll_type
