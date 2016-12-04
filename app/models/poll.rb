@@ -68,10 +68,7 @@ class Poll < ActiveRecord::Base
 
   def destroy_empty_choices!
     self.choices.each do |choice|
-      if choice.title.blank?
-        self.choices.delete(choice)
-        choice.destroy
-      end
+      choice.destroy if choice.title.blank?
     end
   end
 

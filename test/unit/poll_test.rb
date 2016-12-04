@@ -78,7 +78,7 @@ class PollTest < ActiveSupport::TestCase
     add_choice ''
     assert_equal 3, @poll.choices.size
     @poll.destroy_empty_choices!
-    @poll.save
+    assert @poll.save
     @poll.reload
     assert_equal 1, @poll.choices.size
   end

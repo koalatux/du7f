@@ -16,8 +16,7 @@
 
 
 class Choice < ActiveRecord::Base
-  validates_presence_of :poll, :title
-  validates_associated :entries
+  validates_presence_of :poll, :title, :unless => Proc.new {|c| c.destroyed?}
 
   belongs_to :poll
   has_many :entries, dependent: :destroy

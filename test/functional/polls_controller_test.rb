@@ -5,9 +5,7 @@ class PollsControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     assert_template :new
-    assert assigns(:poll)
-    assert assigns(:poll).choices
-    assert assigns(:poll).choices.size >= 1
+    assert assigns(:poll)&.choices&.size >= 1
   end
 
   test 'should get index' do
@@ -22,9 +20,7 @@ class PollsControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template :new
-    assert assigns(:poll)
-    assert assigns(:poll).choices
-    assert assigns(:poll).choices.size >= 2
+    assert assigns(:poll)&.choices&.size >= 2
   end
 
   test 'should create poll' do
@@ -43,13 +39,14 @@ class PollsControllerTest < ActionController::TestCase
           'close_at(3i)' => '27',
           'close_at(4i)' => '17',
           'close_at(5i)' => '12',
-          choices_attributes: {'0' => {title: 'a'}, '1' => {:title => 'b'}, '2' => {title: 'c'}, '3' => {title: 'd'}, '4' => {title: 'e'}}
+          choices_attributes: {'0' => {title: 'a'}, '1' => {:title => 'b'}, '2' => {title: 'c'}, '3' => {title: 'd'}, '4' => {title: ''}}
       }
     end
     assert_response :success
     assert_template :create
     assert_equal 'Poll was successfully created.', flash[:notice]
-    assert assigns(:poll)
+    assert assigns(:poll)&.reload
+    assert_equal 4, assigns(:poll)&.choices&.size
   end
 
   test 'create poll should fail' do
@@ -61,13 +58,18 @@ class PollsControllerTest < ActionController::TestCase
     assert assigns(:poll)
   end
 
+  test 'failing create should keep choices' do
+    post :create, poll: {admin_email_address: 'invalid', choices_attributes: {'0' => {title: 'a'}, '1' => {title: ''}, '2' => {title: ''}, '3' => {title: ''}, '4' => {title: ''}}}
+    assert_response :success
+    assert_template :new
+    assert_equal 5, assigns(:poll)&.choices&.size
+  end
+
   test 'should get edit' do
     get :edit, token: polls(:alices_poll).token, admin_token: polls(:alices_poll).admin_token
     assert_response :success
     assert_template :edit
-    assert assigns(:poll)
-    assert assigns(:poll).choices
-    assert_equal 4, assigns(:poll).choices.size
+    assert_equal 4, assigns(:poll)&.choices&.size
   end
 
   test 'should update poll' do
