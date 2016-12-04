@@ -18,8 +18,24 @@
 class Participant < ActiveRecord::Base
   validates_presence_of :poll, :name
   validates_associated :entries
+  validate :number_of_entries_must_match
+  validate :all_choices_must_have_entries
 
   belongs_to :poll
   has_many :entries, dependent: :destroy
   accepts_nested_attributes_for :entries
+
+  private
+
+  def number_of_entries_must_match
+    if self.entries.size != self.poll.choices.size
+      self.errors.add(:base, 'number of entries does not match number of choices')
+    end
+  end
+
+  def all_choices_must_have_entries
+    if self.poll.choices - self.entries.map{|e| e.choice} != []
+      self.errors.add(:base, 'not all choices have matching entries')
+    end
+  end
 end

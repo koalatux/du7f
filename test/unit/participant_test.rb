@@ -26,4 +26,17 @@ class ParticipantTest < ActiveSupport::TestCase
     assert participant.save
   end
 
+  test 'participant with no answers should fail' do
+    participant = Participant.new(name: 'john')
+    participant.poll = polls(:alices_poll)
+    assert !participant.save
+  end
+
+  test 'participant with duplicate answers should fail' do
+    participant = Participant.new(name: 'john')
+    participant.poll = polls(:alices_poll)
+    participant.entries = (polls(:alices_poll).choices[0...-1] + polls(:alices_poll).choices[0...1]).map { |c| Entry.new(answer: 1) { |e| e.participant = participant; e.choice = c } }
+    assert !participant.save
+  end
+
 end
