@@ -39,8 +39,8 @@ class Poll < ActiveRecord::Base
   attr_readonly :poll_type
   validates_presence_of :poll_type
   validates_associated :choices
+  validates_email_format_of :admin_email_address, check_mx: true, allow_nil: true
   validate :must_have_at_least_one_choice
-  validate :must_have_nil_or_valid_address
   validate :must_be_valid_poll_type
   validate :honeypot_must_be_untouched
   validate :calculation_must_be_correct
@@ -73,6 +73,11 @@ class Poll < ActiveRecord::Base
         choice.destroy
       end
     end
+  end
+
+  def admin_email_address=(value)
+    value = nil if value.blank?
+    self[:admin_email_address] = value
   end
 
   def close_at
@@ -160,13 +165,6 @@ class Poll < ActiveRecord::Base
 
   def must_have_at_least_one_choice
     self.errors.add(:choices, 'count must be at least one') if self.choices.find_all { |x| !x.destroyed? }.size == 0
-  end
-
-  def must_have_nil_or_valid_address
-    self.admin_email_address = nil if self.admin_email_address.blank?
-    if self.admin_email_address
-      self.errors.add(:admin_email_address, 'must be valid or empty') unless self.admin_email_address.match(/.@./) # TODO: RFC 3696
-    end
   end
 
   def must_be_valid_poll_type
