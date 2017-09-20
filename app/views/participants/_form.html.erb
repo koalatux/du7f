@@ -130,7 +130,7 @@
         <%# edit participant %>
         <% @poll.answer_set.each_with_index do |answer, i| %>
           <% answer_key = answer[0]; answer_name = answer[1][:name] %>
-          <tr>
+          <tr class="edit">
             <% if i == 0 %>
               <td rowspan="<%=h @poll.answer_set.size %>" class="name">
                 <%= f.text_field :name %><br />

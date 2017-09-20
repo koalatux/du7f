@@ -148,9 +148,20 @@ table#poll tr.empty
   height: 0.4em;
 }
 
-table#poll td>label
-{
-  display: block;
+table#poll tr.edit {
+    height: 1px;
+}
+
+table#poll tr.edit td.choice {
+    height: 100%;
+    padding: 0;
+}
+
+table#poll tr.edit td.choice > label {
+    display: block;
+    min-height: 100%;
+    height: auto !important;
+    padding: 0.5em;
 }
 
 div.comment
