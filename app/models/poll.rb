@@ -85,7 +85,7 @@ class Poll < ApplicationRecord
     if enable_close_at
       self[:close_at] = value
     else
-      @close_at = value
+      @close_at = ActiveRecord::Type::DateTime.new.cast(value)
     end
   end
 
@@ -122,12 +122,12 @@ class Poll < ApplicationRecord
     answers = [3] # TODO: integrate this in poll_type model eventually
     answers << 2 if self.poll_type == 2
     answers.each do |i|
-      min = win.map { |c| c.count_answers(i) }.min
-      win = win.select { |c| c.count_answers(i) == min }
+      min = win.map {|c| c.count_answers(i)}.min
+      win = win.select {|c| c.count_answers(i) == min}
     end
 
     win = [] if win.size == self.choices.size
-    win = win.map { |c| c.id }
+    win = win.map {|c| c.id}
 
     @winner_choices = win
   end
@@ -161,7 +161,7 @@ class Poll < ApplicationRecord
   end
 
   def must_have_at_least_one_choice
-    self.errors.add(:choices, 'count must be at least one') if self.choices.find_all { |x| !x.destroyed? }.size == 0
+    self.errors.add(:choices, 'count must be at least one') if self.choices.find_all {|x| !x.destroyed?}.size == 0
   end
 
   def must_be_valid_poll_type
