@@ -16,9 +16,9 @@
 
 
 class ParticipantsController < ApplicationController
-  before_filter :get_poll_associates, only: [:index, :edit]
-  before_filter :get_participant, except: [:index, :create]
-  before_filter :verify_poll_is_open, except: [:index]
+  before_action :get_poll_associates, only: [:index, :edit]
+  before_action :get_participant, except: [:index, :create]
+  before_action :verify_poll_is_open, except: [:index]
 
   # TODO: ensure time stamp update, when only an entry gets changed
 

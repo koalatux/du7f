@@ -16,8 +16,8 @@
 
 
 class PollsController < ApplicationController
-  skip_before_filter :get_poll, only: [:new, :index, :create]
-  before_filter :verify_admin_token, except: [:new, :index, :create]
+  skip_before_action :get_poll, only: [:new, :index, :create]
+  before_action :verify_admin_token, except: [:new, :index, :create]
   # TODO: ensure time stamp update, when only choice gets changed
 
   # GET /new

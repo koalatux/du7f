@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class Poll < ActiveRecord::Base
+class Poll < ApplicationRecord
 
   POLL_TYPES = {
       1 => {
@@ -94,7 +94,7 @@ class Poll < ActiveRecord::Base
   end
 
   def enable_close_at=(value)
-    if ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
+    if ActiveRecord::Type::Boolean.new.cast(value)
       self[:close_at] ||= @close_at || Time.at(0)
     else
       @close_at = self[:close_at]

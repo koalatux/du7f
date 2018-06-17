@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-class Choice < ActiveRecord::Base
+class Choice < ApplicationRecord
   validates_presence_of :poll, :title, :unless => Proc.new {|c| c.destroyed?}
 
   belongs_to :poll

@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-class Entry < ActiveRecord::Base
+class Entry < ApplicationRecord
   validates_presence_of :participant, :choice, :answer
   validate :polls_must_match
   validate :answer_must_be_allowed

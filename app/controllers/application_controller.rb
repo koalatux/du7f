@@ -16,7 +16,7 @@
 
 
 class ApplicationController < ActionController::Base
-  before_filter :get_poll
+  before_action :get_poll
 
   private
 
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
   def get_poll_associates
     # OPTIMIZE: do a select for only the needed columns
-    @participants = Participant.includes(entries: :choice).where(poll_id: @poll.id).order('participants.id', 'choices.id')
+    @participants = Participant.includes(entries: :choice).where(poll_id: @poll.id).order('participants.id', 'choices.id').to_a
     # TODO: eager loading for counts
     @comments = Comment.where(poll_id: @poll.id).order(:created_at)
   end

@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-class Participant < ActiveRecord::Base
+class Participant < ApplicationRecord
   validates_presence_of :poll, :name
   validates_associated :entries
   validate :number_of_entries_must_match

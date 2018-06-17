@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ParticipantsControllerTest < ActionController::TestCase
   test 'should get participants' do
-    get :index, token: polls(:alices_poll).token
+    get :index, params: {token: polls(:alices_poll).token}
     assert_response :success
     assert_template :index
 
@@ -22,12 +22,12 @@ class ParticipantsControllerTest < ActionController::TestCase
 
   test 'should create participant' do
     assert_difference('Participant.count') do
-      post :create, token: polls(:alices_poll).token, participant: {name: 'peter', entries_attributes: [
+      post :create, params: {token: polls(:alices_poll).token, participant: {name: 'peter', entries_attributes: [
           {choice_id: choices(:margherita).id, answer: '1'},
           {choice_id: choices(:funghi).id, answer: '3'},
           {choice_id: choices(:quattro_formaggi).id, answer: '1'},
           {choice_id: choices(:gorgonzola).id, answer: '1'}
-      ]}
+      ]}}
     end
     assert_equal 'Participant was successfully created.', flash[:notice]
     assert_equal polls(:alices_poll), assigns(:poll)
@@ -40,7 +40,7 @@ class ParticipantsControllerTest < ActionController::TestCase
 
   test 'should not create incomplete participant' do
     assert_no_difference('Participant.count') do
-      post :create, token: polls(:alices_poll).token, participant: {name: ''}
+      post :create, params: {token: polls(:alices_poll).token, participant: {name: ''}}
     end
     assert_response :success
     assert_template :index
@@ -48,7 +48,7 @@ class ParticipantsControllerTest < ActionController::TestCase
   end
 
   test 'should get edit participant' do
-    get :edit, token: polls(:alices_poll).token, id: participants(:alice).id
+    get :edit, params: {token: polls(:alices_poll).token, id: participants(:alice).id}
     assert_response :success
     assert_template :edit
     assert assigns(:participant)
@@ -60,17 +60,17 @@ class ParticipantsControllerTest < ActionController::TestCase
     c = polls(:alices_poll).choices.new
     c.title = 'Vegana'
     c.save!
-    get :edit, token: polls(:alices_poll).token, id: participants(:alice).id
+    get :edit, params: {token: polls(:alices_poll).token, id: participants(:alice).id}
     assert_equal 5, assigns(:participant).entries.size
   end
 
   test 'should update participant' do
-    put :update, token: polls(:alices_poll).token, id: participants(:alice).id, participant: {name: 'peter', entries_attributes: [
+    put :update, params: {token: polls(:alices_poll).token, id: participants(:alice).id, participant: {name: 'peter', entries_attributes: [
         {id: entries(:a1).id, choice_id: choices(:margherita).id, answer: '1'},
         {id: entries(:a2).id, choice_id: choices(:funghi).id, answer: '3'},
         {id: entries(:a3).id, choice_id: choices(:quattro_formaggi).id, answer: '1'},
         {id: entries(:a4).id, choice_id: choices(:gorgonzola).id, answer: '1'}
-    ]}
+    ]}}
     assert_equal 'Participant was successfully updated.', flash[:notice]
     assert_equal polls(:alices_poll), assigns(:poll)
     assert_redirected_to poll_path(polls(:alices_poll))
@@ -81,7 +81,7 @@ class ParticipantsControllerTest < ActionController::TestCase
   end
 
   test 'update participant should fail' do
-    put :update, token: polls(:alices_poll).token, id: participants(:alice).id, participant: {name: ''}
+    put :update, params: {token: polls(:alices_poll).token, id: participants(:alice).id, participant: {name: ''}}
     assert_response :success
     assert_template :edit
     assert assigns(:participant)
@@ -92,18 +92,18 @@ class ParticipantsControllerTest < ActionController::TestCase
     p.enable_close_at = true
     p.close_at = 1.minute.ago
     p.save(validate: false) # no validation because of spam protection
-    put :update, token: polls(:alices_poll).token, id: participants(:alice).id, participant: {name: 'peter', entries_attributes: [
+    put :update, params: {token: polls(:alices_poll).token, id: participants(:alice).id, participant: {name: 'peter', entries_attributes: [
         {id: entries(:a1).id, choice_id: choices(:margherita).id, answer: '1'},
         {id: entries(:a2).id, choice_id: choices(:funghi).id, answer: '3'},
         {id: entries(:a3).id, choice_id: choices(:quattro_formaggi).id, answer: '1'},
         {id: entries(:a4).id, choice_id: choices(:gorgonzola).id, answer: '1'}
-    ]}
+    ]}}
     assert_redirected_to poll_path(polls(:alices_poll))
     assert_equal 'Poll is closed.', flash[:error]
   end
 
   test 'should get destroy confirm participant' do
-    get :destroy_confirm, token: polls(:alices_poll).token, id: participants(:alice).id
+    get :destroy_confirm, params: {token: polls(:alices_poll).token, id: participants(:alice).id}
     assert_response :success
     assert_template :destroy_confirm
     assert assigns(:participant)
@@ -111,7 +111,7 @@ class ParticipantsControllerTest < ActionController::TestCase
 
   test 'should destroy participant' do
     assert_difference('Participant.count', -1) do
-      delete :destroy, token: polls(:alices_poll).token, id: participants(:alice).id
+      delete :destroy, params: {token: polls(:alices_poll).token, id: participants(:alice).id}
     end
     assert_equal 'Participant destroyed.', flash[:notice]
     assert_redirected_to poll_path(polls(:alices_poll))
@@ -119,29 +119,29 @@ class ParticipantsControllerTest < ActionController::TestCase
 
   test 'token should be required' do
     assert_raises ActiveRecord::RecordNotFound do
-      post :create, token: 'guessed token', participant: {name: 'peter', entries_attributes: [
+      post :create, params: {token: 'guessed token', participant: {name: 'peter', entries_attributes: [
           {choice_id: choices(:margherita).id, answer: '1'},
           {choice_id: choices(:funghi).id, answer: '3'},
           {choice_id: choices(:quattro_formaggi).id, answer: '1'},
           {choice_id: choices(:gorgonzola).id, answer: '1'}
-      ]}
+      ]}}
     end
     assert_raises ActiveRecord::RecordNotFound do
-      get :edit, token: 'guessed token', id: participants(:alice).id
+      get :edit, params: {token: 'guessed token', id: participants(:alice).id}
     end
     assert_raises ActiveRecord::RecordNotFound do
-      put :update, token: 'guessed token', id: participants(:alice).id, participant: {name: 'peter', entries_attributes: [
+      put :update, params: {token: 'guessed token', id: participants(:alice).id, participant: {name: 'peter', entries_attributes: [
           {id: entries(:a1).id, choice_id: choices(:margherita).id, answer: '1'},
           {id: entries(:a2).id, choice_id: choices(:funghi).id, answer: '3'},
           {id: entries(:a3).id, choice_id: choices(:quattro_formaggi).id, answer: '1'},
           {id: entries(:a4).id, choice_id: choices(:gorgonzola).id, answer: '1'}
-      ]}
+      ]}}
     end
     assert_raises ActiveRecord::RecordNotFound do
-      get :destroy_confirm, token: 'guessed token', id: participants(:alice).id
+      get :destroy_confirm, params: {token: 'guessed token', id: participants(:alice).id}
     end
     assert_raises ActiveRecord::RecordNotFound do
-      delete :destroy, token: 'guessed token', id: participants(:alice).id
+      delete :destroy, params: {token: 'guessed token', id: participants(:alice).id}
     end
   end
 end

@@ -16,8 +16,8 @@
 
 
 class CommentsController < ApplicationController
-  before_filter :get_comment, except: [:create]
-  before_filter :verify_comments_allowed
+  before_action :get_comment, except: [:create]
+  before_action :verify_comments_allowed
 
   def create
     @comment = @poll.comments.new(comment_params)

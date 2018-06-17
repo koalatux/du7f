@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
 
   validates_presence_of :name, :comment
   validate :honeypot_must_be_untouched
