@@ -46,10 +46,11 @@ du7f has only been tested using SQLite as a database. But might work as well wit
 The source code of du7f is available at [GitHub](https://github.com/koalatux/du7f).
 
 ## Note about the SQLite adapter
-If you are using the SQLite adapter, you need to convert booleans from strings
-to integers, because booleans as strings is depraced with Rails 5.2. you might
-use the provided rake task.
+If you are using the SQLite adapter and are upgrading from a du7f version which
+uses a Rails version before 5.2, you need to convert booleans from strings to
+integers in your database, because booleans as strings is depraced with Rails
+5.2. You might use the provided rake task.
 
 ```bash
-bundle exec rake sqlite_boolean_as_integer:convert_to_int
+RAILS_ENV=production bundle exec rake sqlite_boolean_as_integer:convert_to_int
 ```
