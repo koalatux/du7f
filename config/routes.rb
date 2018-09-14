@@ -17,8 +17,6 @@ Rails.application.routes.draw do
   delete ':token/participant/:id',            to: 'participants#destroy'
 
   post   ':token/comment',                    to: 'comments#create',              as: :comments
-  #get    ':token/comment/:id/edit',           to: 'comments#edit',                as: :edit_comment
-  #patch  ':token/comment/:id',                to: 'comments#update',              as: :comment
   get    ':token/comment/:id/destroy',        to: 'comments#destroy_confirm',     as: :destroy_comment
   delete ':token/comment/:id',                to: 'comments#destroy',             as: :comment
 end
