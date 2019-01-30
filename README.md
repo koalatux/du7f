@@ -1,4 +1,9 @@
-# du7f [![Build Status](https://travis-ci.org/koalatux/du7f.svg?branch=master)](https://travis-ci.org/koalatux/du7f) [![BCH compliance](https://bettercodehub.com/edge/badge/koalatux/du7f?branch=master)](https://bettercodehub.com/)
+# du7f &emsp; [![Build Status]][travis] [![BCH compliance]][bettercodehub]
+
+[Build Status]: https://travis-ci.org/koalatux/du7f.svg?branch=master
+[travis]: https://travis-ci.org/koalatux/du7f
+[BCH compliance]: https://bettercodehub.com/edge/badge/koalatux/du7f?branch=master
+[bettercodehub]: https://bettercodehub.com/
 
 du7f is a simple web-based polling tool using the Ruby on Rails framework.
 
