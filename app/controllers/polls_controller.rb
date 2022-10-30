@@ -66,7 +66,7 @@ class PollsController < ApplicationController
   # PUT /0123456789abcdef.../admin/fedcba9876543210...
   def update
     # TODO: destroy_empty_choices not implemented here, first implement ability to add choices and ask for confirmation
-    if @poll.update_attributes(poll_params)
+    if @poll.update(poll_params)
       EmailNotifier.poll_changed(@poll, request).deliver_now if @poll.admin_email_address
       flash[:notice] = 'Poll was successfully updated.'
       redirect_to @poll

@@ -64,7 +64,7 @@ class ParticipantsController < ApplicationController
   # edit.html.erb
 
   def update
-    if @participant.update_attributes(participant_params)
+    if @participant.update(participant_params)
       EmailNotifier.participant_changed(@participant, request).deliver_now if @poll.admin_email_address # TODO only send on changes
       flash[:notice] = 'Participant was successfully updated.'
       redirect_to @poll
