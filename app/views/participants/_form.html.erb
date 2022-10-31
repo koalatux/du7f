@@ -29,8 +29,28 @@
   </style>
 <% end %>
 
-<%= error_messages_for 'participant' %>
-<%= error_messages_for 'comment' %>
+<% if @participant&.errors&.any? %>
+  <div id="errorExplanation" class="errorExplanation">
+    <h2><%= pluralize(@participant.errors.count, "error") %> prohibited this participant from being saved</h2>
+    <p>There were problems with the following fields:</p>
+    <ul>
+      <% @participant.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<% if @comment&.errors&.any? %>
+  <div id="errorExplanation" class="errorExplanation">
+    <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved</h2>
+    <p>There were problems with the following fields:</p>
+    <ul>
+      <% @comment.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
 <% if @poll.author && !@poll.author.blank? %>
   <p>

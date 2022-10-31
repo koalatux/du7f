@@ -24,10 +24,20 @@
             end %>
 <h2>Editing poll</h2>
 
-<%= form_for @poll, url: poll_admin_path do |f| %>
-  <%= f.error_messages %>
+<% if @poll.errors.any? %>
+  <div id="errorExplanation" class="errorExplanation">
+    <h2><%= pluralize(@poll.errors.count, "error") %> prohibited this poll from being saved</h2>
+    <p>There were problems with the following fields:</p>
+    <ul>
+      <% @poll.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-  <%= render partial: 'form', locals: {f: f} %>
+<%= form_for @poll, url: poll_admin_path do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
 
   <p>
     <%= submit_tag 'Update' %>
